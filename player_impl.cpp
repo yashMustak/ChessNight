@@ -14,7 +14,7 @@ _name(name), _isWhite(isWhite), _myKing(myKing), _myPieces(myPieces){
 Player::~Player(){
 }
 
-void Player::changeName(stirng newName){
+void Player::changeName(string newName){
 	_name = newName;
 }
 
@@ -32,8 +32,8 @@ bool Player::makeMove(){
 	}
 	
 	cout<<_name<<" enter your move (eg. d4 d6): ";
-	cin<<fromTile;
-	cin<<toTile;
+	cin>>fromTile;
+	cin>>toTile;
 	
 	transform(fromTile.begin(), fromTile.end(), fromTile.begin(), ::tolower);
 	transform(toTile.begin(), toTile.end(), toTile.begin(), ::tolower);
@@ -47,11 +47,11 @@ bool Player::makeMove(){
 	while(fromX >= 8 || fromX < 0 ||
 	   fromY >= 8 || fromX < 0 ||
 	   toX >= 8 || toX < 0 ||
-	   toy >= 8 || toY < 0){
+	   toY >= 8 || toY < 0){
 	   	cout<<"Please enter valid coordinates on the board: ";
 	   	
-	   	cin<<fromTile;
-		cin<<toTile;
+	   	cin>>fromTile;
+		cin>>toTile;
 		
 		transform(fromTile.begin(), fromTile.end(), fromTile.begin(), ::tolower);
 		transform(toTile.begin(), toTile.end(), toTile.begin(), ::tolower);
