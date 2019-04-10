@@ -15,11 +15,11 @@ Board::Board(){
 Board::~Board(){
 	for(int i = 0; i < _DIMENSION; i++){
 		for(int j = 0; j < _DIMENSION; j++){
-			delete[] TileArr[i][j];
+			delete[] _TileArr[i][j];
 		}
-		delete[] TileArr[i];
+		delete[] _TileArr[i];
 	}
-	delete[] TileArr;
+	delete[] _TileArr;
 }
 
 Board* Board::getBoard(){
@@ -27,8 +27,8 @@ Board* Board::getBoard(){
 	else _BOARD = new Board();
 }
 
-Tile* Board::TileAt(int x, int y) const{
-	if(x >= 0 && x < 8 && y >= 0 && y < 8) return TileArr[x][y];
+Tile* Board::tileAt(int x, int y) const{
+	if(x >= 0 && x < 8 && y >= 0 && y < 8) return _TileArr[x][y];
 }
 
 bool Board::isClearVertical(Tile &from, Tile &to) const{
@@ -42,10 +42,10 @@ bool Board::isClearVertical(Tile &from, Tile &to) const{
 	if(startX == endX){
 		int increament = (endY - startY) / abs(endY - startY);
 		checkY = startY + increament;
-		Tile* check = TileArr[startX][checkY];
+		Tile* check = _TileArr[startX][checkY];
 		while (check->isEmpty() && checkY != endY){
 			checkY = checkY + increament;
-			check = TitleArr[startX][checkY];
+			check = _TileArr[startX][checkY];
 		}
 		if(checkY == endY) return true;
 		else return false;
@@ -58,15 +58,15 @@ bool Board::isClearHorizontal(Tile &from, Tile &to) const{
 	int startY = from.getY();
 	int endX = to.getX();
 	int endY = to.getY();
-	int checkY;
+	int checkX;
 	
 	if(startY == endY){
 		int increament = (endX - startX) / abs(endX - startX);
 		checkX = startX + increament;
-		Tile* check = TileArr[checkX][startY];
+		Tile* check = _TileArr[checkX][startY];
 		while (check->isEmpty() && checkX != endX){
 			checkX = checkX + increament;
-			ckeck = TitleArr[checkX][startY];
+			check = _TileArr[checkX][startY];
 		}
 		if(checkX == endX) return true;
 		else return false;
@@ -86,11 +86,11 @@ bool Board::isClearDiagonal(Tile &from, Tile &to) const{
 		int increament = (endX - startX) / abs(endX - startX);
 		checkX = startX + increament;
 		checkY = startY + increament;
-		Tile* check = TileArr[checkX][checkY];
+		Tile* check = _TileArr[checkX][checkY];
 		while (check->isEmpty() && checkX != endX){
 			checkX = checkX + increament;
 			checkY = checkY + increament;
-			ckeck = TitleArr[checkX][checkY];
+			check = _TileArr[checkX][checkY];
 		}
 		if(checkX == endX) return true;
 		else return false;
@@ -112,7 +112,7 @@ bool Board::isClearDiagonal(Tile &from, Tile &to) const{
 **	
 **	 	A B C D E F G H
 */
-void Board::display(){
+void Board::display() const{
 	
 	cout<<" \tA B C D E F G H"<<endl<<endl;
 	for(int i = 0; i < _DIMENSION; i++){

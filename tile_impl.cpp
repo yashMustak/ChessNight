@@ -3,7 +3,7 @@
 */
 #include"tile.hpp"
 
-Tile::Tile(int X, int Y) : _posX(x), _posY(y) {
+Tile::Tile(int X, int Y) : _posX(X), _posY(Y) {
 	_piece = NULL;
 }
 

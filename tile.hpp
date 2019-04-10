@@ -11,7 +11,7 @@ class Tile{
 	
 	const int _posX;
 	const int _posY;
-	Piece* _Piece;
+	Piece* _piece;
 	
 	public:
 		

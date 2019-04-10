@@ -65,9 +65,18 @@ class Piece{
 		
 		void setLocation(Tile* setTile);
 		
-		Tile* getLocation();
+		Tile* getLocation() const;
 		
 		virtual int getPriority();
+
+	protected:
+
+		bool _isWhite;
+		char _color;
+
+	private:
+
+		Tile* _tile;
 };
 
 

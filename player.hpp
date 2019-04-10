@@ -29,6 +29,13 @@ class Player{
 		set<Piece*>* getMyPieces() const;
 		
 		King* getKing() const;
+
+	private:
+
+		string _name;
+		bool _isWhite;
+		King _myKing;
+		set<Piece*> _myPieces;
 };
 
 #endif

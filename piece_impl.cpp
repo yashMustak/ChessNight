@@ -12,25 +12,25 @@ Piece::Piece(bool isWhite) : _isWhite(isWhite), _tile(NULL){
 	else _color = 'B';
 }
 
-virtual Piece::~Piece(){
+Piece::~Piece(){
 }
 
-virtual bool Piece::moveTo(Player &byPlayer, Tile &toTile){
+bool Piece::moveTo(Player& byPlayer, Tile& toTile){
 	
 	bool validMove = false;	
 	if(_isWhite == byPlayer.isWhite()){
 		if(canMoveTo(toTile)){
 			if(!byPlayer.inCheck()){
-				if(toTile->isEmpty()){
+				if(toTile.isEmpty()){
 					validMove = true;
 					_tile = &toTile;
 				}
 				else{
 					Piece* capturePiece = NULL;
-					if(toTile->getPiece()->isWhite() != _isWhite){
-						capturePiece = toTile->getPiece();
+					if(toTile.getPiece()->isWhite() != _isWhite){
+						capturePiece = toTile.getPiece();
 						capturePiece->setLocation(NULL);
-						toTile->setPiece(this);
+						toTile.setPiece(this);
 						_tile = &toTile;
 						validMove = true;
 						byPlayer.capture(capturePiece);
@@ -53,14 +53,14 @@ virtual bool Piece::moveTo(Player &byPlayer, Tile &toTile){
 		cout<<"This piece do not belong to current player";
 	}
 	
-	return validMove
+	return validMove;
 }
 
-char Piece::getColor(){
+char Piece::getColor() const{
 	return _color;
 }
 
-bool Piece::isWhite(){
+bool Piece::isWhite() const{
 	if(_isWhite) return true;
 	else return false;
 }
@@ -69,6 +69,6 @@ void Piece::setLocation(Tile* setTile){
 	_tile = setTile;
 }
 
-Piece* Piece::getLocation(){
+Tile* Piece::getLocation() const{
 	return _tile;
 }
