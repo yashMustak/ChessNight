@@ -4,7 +4,6 @@
 #include<iostream>
 #include<iterator>
 
-#include "player.hpp"
 #include "board.hpp"
 
 Player::Player(string name, bool isWhite, King &myKing, set<Piece*> &myPieces) : 

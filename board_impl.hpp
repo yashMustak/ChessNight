@@ -2,7 +2,6 @@
 **	board implementation
 */
 #include<cstdlib>
-#include"board.hpp"
 
 Board::Board(){
 	for(int i = 0; i < _DIMENSION; i++){

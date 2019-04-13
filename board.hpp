@@ -31,5 +31,6 @@ class Board{
 		void display() const;
 };
 
+#include"board_impl.hpp"
 
 #endif

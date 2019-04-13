@@ -38,4 +38,6 @@ class Player{
 		set<Piece*> _myPieces;
 };
 
+#include"player_impl.hpp"
+
 #endif

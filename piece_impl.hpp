@@ -3,8 +3,6 @@
 */
 #include<iostream>
 
-#include"piece.hpp"
-
 using namespace std;
 
 Piece::Piece(bool isWhite) : _isWhite(isWhite), _tile(NULL){

@@ -28,4 +28,6 @@ class Tile{
 		int getY () const;
 };
 
+#include"tile_impl.hpp"
+
 #endif

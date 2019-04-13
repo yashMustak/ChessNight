@@ -79,5 +79,6 @@ class Piece{
 		Tile* _tile;
 };
 
+#include"piece_impl.hpp"
 
 #endif
