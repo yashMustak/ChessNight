@@ -3,7 +3,7 @@
 
 #include "prereq.hpp"
 
-class Pawn{
+class Pawn : public Piece{
     public:
         Pawn(bool isWhite);
 
@@ -15,5 +15,7 @@ class Pawn{
 
         void display();
 };
+
+// #include "pawn_impl.hpp"
 
 #endif

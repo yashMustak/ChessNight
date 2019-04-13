@@ -3,7 +3,7 @@
 
 #include "prereq.hpp"
 
-class Bishop{
+class Bishop : public Piece{
     public:
         Bishop(bool isWhite);
 
@@ -15,5 +15,7 @@ class Bishop{
 
         void display();
 };
+
+// #include "bishop_impl.hpp"
 
 #endif

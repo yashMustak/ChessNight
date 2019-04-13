@@ -3,7 +3,7 @@
 
 #include "prereq.hpp"
 
-class King{
+class King : public RestrictedPiece{
     public:
         King(bool isWhite);
 
@@ -15,5 +15,7 @@ class King{
 
         void display();
 };
+
+// #include "king_impl.hpp"
 
 #endif

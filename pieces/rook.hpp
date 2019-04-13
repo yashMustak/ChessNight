@@ -3,7 +3,7 @@
 
 #include "prereq.hpp"
 
-class Rook{
+class Rook : public Piece{
     public:
         Rook(bool isWhite);
 
@@ -15,5 +15,7 @@ class Rook{
 
         void display();
 };
+
+// #include "rook_impl.hpp"
 
 #endif

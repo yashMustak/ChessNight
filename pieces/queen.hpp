@@ -3,7 +3,7 @@
 
 #include "prereq.hpp"
 
-class Queen{
+class Queen : public Piece{
     public:
         Queen(bool isWhite);
 
@@ -15,5 +15,7 @@ class Queen{
 
         void display();
 };
+
+// #include "queen_impl.hpp"
 
 #endif

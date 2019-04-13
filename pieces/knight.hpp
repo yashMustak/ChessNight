@@ -3,7 +3,7 @@
 
 #include "prereq.hpp"
 
-class Knight{
+class Knight : public Piece{
     public:
         Knight(bool isWhite);
 
@@ -15,5 +15,7 @@ class Knight{
 
         void display();
 };
+
+// #include "knight_impl.hpp"
 
 #endif
