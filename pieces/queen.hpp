@@ -16,6 +16,6 @@ class Queen : public Piece{
         void display();
 };
 
-// #include "queen_impl.hpp"
+#include "queen_impl.hpp"
 
 #endif

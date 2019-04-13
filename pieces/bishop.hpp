@@ -16,6 +16,6 @@ class Bishop : public Piece{
         void display();
 };
 
-// #include "bishop_impl.hpp"
+#include "bishop_impl.hpp"
 
 #endif

@@ -16,6 +16,6 @@ class Rook : public Piece{
         void display();
 };
 
-// #include "rook_impl.hpp"
+#include "rook_impl.hpp"
 
 #endif

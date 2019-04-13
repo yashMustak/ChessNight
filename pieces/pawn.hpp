@@ -16,6 +16,6 @@ class Pawn : public Piece{
         void display();
 };
 
-// #include "pawn_impl.hpp"
+#include "pawn_impl.hpp"
 
 #endif

@@ -1,7 +1,19 @@
 #ifndef king_header
 #define king_header
 
-#include "prereq.hpp"
+#if defined(__unix__)
+#include "../restricted.hpp"
+#include "../tile.hpp"
+
+#elif defined(_WIN64)
+#include "..\restricted.hpp"
+#include "../tile.hpp"
+
+#elif defined(__APPLE__)
+#include "../restricted.hpp"
+#include "../tile.hpp"
+#endif
+
 
 class King : public RestrictedPiece{
     public:
@@ -16,6 +28,6 @@ class King : public RestrictedPiece{
         void display();
 };
 
-// #include "king_impl.hpp"
+#include "king_impl.hpp"
 
 #endif

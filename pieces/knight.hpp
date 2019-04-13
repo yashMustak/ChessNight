@@ -16,6 +16,6 @@ class Knight : public Piece{
         void display();
 };
 
-// #include "knight_impl.hpp"
+#include "knight_impl.hpp"
 
 #endif

@@ -35,7 +35,7 @@ class Piece{
 		**	@params: (Player object), (Tile object)
 		**	@return: (boolean) true if valid
 		*/	
-		virtual bool moveTo ( Player &byPlayer, Tile &toTile );
+		virtual bool moveTo ( Player& byPlayer, Tile& toTile );
 		
 		/*
 		**	Verify the valid move according to the piece
@@ -43,7 +43,7 @@ class Piece{
 		**	@params: (Tile object)
 		**	@return: (boolean) true if valid
 		*/
-		virtual bool canMoveTo ( Tile &ToTile );
+		virtual bool canMoveTo ( Tile& toTile );
 		
 		/*
 		**	Return colour name
