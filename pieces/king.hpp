@@ -1,8 +1,6 @@
 #ifndef king_header
 #define king_header
 
-#include<iostream>
-
 #include "prereq.hpp"
 
 class King{

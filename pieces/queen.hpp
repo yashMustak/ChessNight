@@ -1,7 +1,5 @@
 #ifndef queen_header
-#define queen_header
-
-#include<iostream>
+#define queen_heade
 
 #include "prereq.hpp"
 

@@ -1,8 +1,6 @@
 #ifndef knight_header
 #define knight_header
 
-#include<iostream>
-
 #include "prereq.hpp"
 
 class Knight{

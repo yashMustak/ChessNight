@@ -1,8 +1,6 @@
 #ifndef pawn_header
 #define pawn_header
 
-#include<iostream>
-
 #include "prereq.hpp"
 
 class Pawn{

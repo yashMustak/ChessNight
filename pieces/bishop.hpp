@@ -1,8 +1,6 @@
 #ifndef bishop_header
 #define bishop_header
 
-#include<iostream>
-
 #include "prereq.hpp"
 
 class Bishop{

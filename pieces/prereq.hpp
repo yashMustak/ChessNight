@@ -1,3 +1,5 @@
+#include<ostream>
+
 #if defined(__unix__)
 #include "../piece.hpp"
 #include "../tile.hpp"

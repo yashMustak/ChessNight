@@ -1,8 +1,6 @@
 #ifndef rook_header
 #define rook_header
 
-#include<iostream>
-
 #include "prereq.hpp"
 
 class Rook{
