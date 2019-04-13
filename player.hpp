@@ -4,6 +4,7 @@
 #include<iostream>
 #include<set>
 #include "piece.hpp"
+#include "board.hpp"
 
 class Player{
 	
