@@ -1,6 +1,8 @@
 #ifndef king_header
 #define king_header
 
+#include<ostream>
+
 #if defined(__unix__)
 #include "../restricted.hpp"
 #include "../tile.hpp"
@@ -13,7 +15,6 @@
 #include "../restricted.hpp"
 #include "../tile.hpp"
 #endif
-
 
 class King : public RestrictedPiece{
     public:

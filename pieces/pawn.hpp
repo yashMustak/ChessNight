@@ -1,6 +1,8 @@
 #ifndef pawn_header
 #define pawn_header
 
+#include<ostream>
+
 #if defined(__unix__)
 #include "../restricted.hpp"
 #include "../tile.hpp"
