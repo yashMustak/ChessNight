@@ -19,4 +19,6 @@ class RestrictedPiece : public Piece{
         bool _moved;
 };
 
+#include "restricted_impl.hpp"
+
 #endif
