@@ -15,12 +15,13 @@ Piece::~Piece(){
 
 bool Piece::moveTo(Player& byPlayer, Tile& toTile){
 	
-	bool validMove = false;	
+	bool valid = false;	
+	
 	if(_isWhite == byPlayer.isWhite()){
 		if(canMoveTo(toTile)){
 			if(!byPlayer.inCheck()){
 				if(toTile.isEmpty()){
-					validMove = true;
+					valid = true;
 					_tile = &toTile;
 				}
 				else{
@@ -30,10 +31,10 @@ bool Piece::moveTo(Player& byPlayer, Tile& toTile){
 						capturePiece->setLocation(NULL);
 						toTile.setPiece(this);
 						_tile = &toTile;
-						validMove = true;
+						valid = true;
 						byPlayer.capture(capturePiece);
 					}
-					else validMove = false;
+					else valid = false;
 				}
 			}
 			else {
@@ -51,7 +52,7 @@ bool Piece::moveTo(Player& byPlayer, Tile& toTile){
 		cout<<"This piece do not belong to current player";
 	}
 	
-	return validMove;
+	return valid;
 }
 
 char Piece::getColor() const{

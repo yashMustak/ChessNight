@@ -16,11 +16,17 @@ bool Queen::canMoveTo(Tile& toTile) const{
     int delX = abs(this->getLocation()->getX() - toTile.getX());
     int delY = abs(this->getLocation()->getY() - toTile.getY());
 
-    if(delX == delY) validMove = true;
+    if(Board::getBoard()->isClearDiagonal(*this->getLocation(), toTile)){
+        if(delX == delY) validMove = true;
+    }
     else{
-        if(delX == 0) validMove = true;
+        if(Board::getBoard()->isClearHorizontal(*this->getLocation(), toTile)){
+            if(delX == 0) validMove = true;
+        }
         else{
-            if(delY == 0) validMove = true;
+            if(Board::getBoard()->isClearVertical(*this->getLocation(), toTile)){
+                if(delY == 0) validMove = true;
+            }
         }
     }
     
@@ -28,6 +34,6 @@ bool Queen::canMoveTo(Tile& toTile) const{
 }
 
 void Queen::display(){
-    if(isWhite) cout<<"Q";
+    if(isWhite()) cout<<"Q";
     else cout<<"q";
 }

@@ -16,11 +16,13 @@ bool King::canMoveTo ( Tile& toTile ) const{
     int delX = abs(this->getLocation()->getX() - toTile.getX());
     int delY = abs(this->getLocation()->getY() - toTile.getY());
 
-    if ( delX == 1 && delY == 0 ) validMove = true;
-    else{
-        if ( delX == 0 && delY == 1 ) validMove = true;
+    if(toTile.isEmpty()){
+        if ( delX == 1 && delY == 0 ) validMove = true;
         else{
-            if ( delX == 1 && delY == 1 ) validMove = true;
+            if ( delX == 0 && delY == 1 ) validMove = true;
+            else{
+                if ( delX == 1 && delY == 1 ) validMove = true;
+            }
         }
     }
 
@@ -28,6 +30,6 @@ bool King::canMoveTo ( Tile& toTile ) const{
 }
 
 void King::display(){
-    if(isWhite) cout<<"K";
+    if(isWhite()) cout<<"K";
     else cout<<"k";
 }

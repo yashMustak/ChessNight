@@ -96,18 +96,23 @@ bool Board::isClearDiagonal(Tile &from, Tile &to) const{
 	}
 }
 
+bool Board::isEndRow(Tile* thisTile) const{
+	if(thisTile->getY == 0 || thisTile->getY == 7) return true;
+	else return false;
+}
+
 
 /*
 **	 	A B C D E F G H
 ** 	
-**	1	r n b q k b n r  1
-**	2	p p p p p p p p  2
-**	3	- + - + - + - +  3
-**	4	+ - + - + - + -  4
-**	5	- + - + - + - +  5
-**	6	+ - + - + - + -  6
-**	7	P P P P P P P P  7
-**	8	R N B Q K B N R  8
+**	1	r n b q k b n r 	1
+**	2	p p p p p p p p 	2
+**	3	- + - + - + - + 	3
+**	4	+ - + - + - + - 	4
+**	5	- + - + - + - + 	5
+**	6	+ - + - + - + - 	6
+**	7	P P P P P P P P 	7
+**	8	R N B Q K B N R 	8
 **	
 **	 	A B C D E F G H
 */
@@ -118,7 +123,7 @@ void Board::display() const{
 		for(int j = -1; j <= _DIMENSION; j++){
 			if(j == -1) cout<<i+1<<"\t";
 			else{
-				if(j == 8) cout<<" "<<i+1;
+				if(j == 8) cout<<"\t"<<i+1;
 				else{
 					if(!_TileArr[i][j]->isEmpty) _TileArr[i][j]->getPiece->display();
 					else{

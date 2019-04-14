@@ -27,6 +27,8 @@ class Board{
 		bool isClearHorizontal ( Tile &from, Tile &to ) const;
 		
 		bool isClearDiagonal ( Tile &from, Tile &to ) const;
+
+		bool isEndRow(Tile* thisTile) const;
 		
 		void display() const;
 };

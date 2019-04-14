@@ -16,15 +16,19 @@ bool Rook::canMoveTo(Tile& toTile) const{
     int delX = abs(this->getLocation()->getX() - toTile.getX());
     int delY = abs(this->getLocation()->getY() - toTile.getY());
 
-    if(delX == 0) validMove = true;
+    if(Board::getBoard()->isClearHorizontal(*this->getLocation(), toTile)){
+            if(delX == 0) validMove = true;
+    }
     else{
-        if(delY == 0) validMove = true;
+        if(Board::getBoard()->isClearVertical(*this->getLocation(), toTile)){
+            if(delY == 0) validMove = true;
+        }
     }
     
     return validMove;
 }
 
 void Rook::display(){
-    if(isWhite) cout<<"R";
+    if(isWhite()) cout<<"R";
     else cout<<"r";
 }
