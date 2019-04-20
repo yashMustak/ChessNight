@@ -37,6 +37,7 @@ class Player{
 		bool _isWhite;
 		King _myKing;
 		set<Piece*> _myPieces;
+		set<Piece*> _captured;
 };
 
 #include"player_impl.hpp"

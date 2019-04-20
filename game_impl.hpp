@@ -11,8 +11,8 @@ Game::~Game(){
     }
     blackPieces.clear();
 
-    delete &player1;
-    delete &player2;
+    delete player1;
+    delete player2;
 }
 
 void Game::initialize(){

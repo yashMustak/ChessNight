@@ -57,9 +57,21 @@ bool Player::makeMove(){
 		toY = 8 - (int)toTile[1];
 	}
 	
-	return Board::getBoard()->tileAt(fromX, fromY)->getPiece()->moveTo(*this, *(Board::getBoard()->tileAt(toX, toY)));
+	return Board::getBoard()->tileAt(fromX, fromY)->getPiece()->moveTo(
+		*this, *(Board::getBoard()->tileAt(toX, toY)));
 }
 
 bool Player::inCheck(){
+	bool check = false;
+	set<Piece*> tempSet = Game::opponentOf(*this)->_myPieces;
+	for(set<Piece*>::iterator itr = tempSet.begin(); itr != tempSet.end(); ++itr){
+		if((Piece*)*itr->getLocation() && (Piece*)*itr->canMoveTo(*_myKing.getLocation())) check = true;
+		else check = false;
+	}
+}
+
+void Player::capture(Piece* capturePiece){
+	capturePiece->setLocation(NULL);
 	
+	//Game::opponentOf(*this)->_myPieces.erase(capturePiece);
 }
