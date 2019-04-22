@@ -72,6 +72,31 @@ bool Player::inCheck(){
 
 void Player::capture(Piece* capturePiece){
 	capturePiece->setLocation(NULL);
-	
-	//Game::opponentOf(*this)->_myPieces.erase(capturePiece);
+	Game::opponentOf(*this)->_myPieces.erase(capturePiece);
+	_captured.insert(capturePiece);
+}
+
+string Player::getName() const{
+	return _name;
+}
+
+bool Player::isWhite() const{
+	return _isWhite;
+}
+
+int Player::score() const{
+	int score = 0;
+	set<Piece*>::iterator itr;
+	for(itr = _captured.begin(); itr != _captured.end(); ++itr){
+		score += ((Piece*)*itr)->getPriority();
+	}
+	return score;
+}
+
+set<Piece*>* Player::getMyPieces() const{
+	return & _myPieces;
+}
+
+King* Player::getKing() const{
+	return & _myKing;
 }

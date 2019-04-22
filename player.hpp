@@ -1,8 +1,9 @@
 #ifndef player_header
 #define player_header
 
-#include<iostream>
-#include<set>
+#include <iostream>
+#include <set>
+#include <iterator>
 #include "piece.hpp"
 #include "board.hpp"
 
