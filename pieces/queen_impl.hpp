@@ -33,7 +33,7 @@ bool Queen::canMoveTo(Tile& toTile) const{
     return validMove;
 }
 
-void Queen::display(){
+void Queen::symbol(){
     if(isWhite()) cout<<"Q";
     else cout<<"q";
 }

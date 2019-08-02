@@ -28,7 +28,7 @@ bool Rook::canMoveTo(Tile& toTile) const{
     return validMove;
 }
 
-void Rook::display(){
+void Rook::symbol(){
     if(isWhite()) cout<<"R";
     else cout<<"r";
 }

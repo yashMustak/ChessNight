@@ -13,7 +13,7 @@ class Queen : public Piece{
 
         bool canMoveTo(Tile& toTile) const;
 
-        void display();
+        void symbol();
 };
 
 #include "queen_impl.hpp"

@@ -1,4 +1,5 @@
 #include<ostream>
+#include<cstdlib>
 
 #if defined(__unix__)
 #include "../piece.hpp"

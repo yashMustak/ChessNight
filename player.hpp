@@ -4,8 +4,20 @@
 #include <iostream>
 #include <set>
 #include <iterator>
+//#include "common.hpp"
 #include "piece.hpp"
 #include "board.hpp"
+#include "game.hpp"
+
+#if defined(__unix__)
+#include "pieces/king.hpp"
+
+#elif defined(_WIN64)
+#include "pieces\king.hpp"
+
+#elif defined(__APPLE__)
+#include "pieces/king.hpp"
+#endif
 
 class Player{
 	
@@ -36,8 +48,8 @@ class Player{
 
 		string _name;
 		bool _isWhite;
-		King _myKing;
-		set<Piece*> _myPieces;
+		King& _myKing;
+		set<Piece*>& _myPieces;
 		set<Piece*> _captured;
 };
 

@@ -13,7 +13,7 @@ class Bishop : public Piece{
 
         bool canMoveTo(Tile& toTile) const;
 
-        void display();
+        void symbol();
 };
 
 #include "bishop_impl.hpp"

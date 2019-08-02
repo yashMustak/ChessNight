@@ -102,6 +102,7 @@ void Game::initialize(){
     tilePtr->setPiece(piecePtr);
     whitePieces.insert(piecePtr);
 
+	// Pawn
     for(int i = 0; i<8; i++){
         piecePtr = new Pawn(false);
         tilePtr = Board::getBoard()->tileAt(i, 1);
@@ -115,6 +116,7 @@ void Game::initialize(){
         whitePieces.insert(piecePtr);
     }
 
+	// King
     piecePtr = new King(false);
     tilePtr = Board::getBoard()->tileAt(4, 0);
     piecePtr->setLocation(tilePtr);
@@ -122,7 +124,7 @@ void Game::initialize(){
     blackPieces.insert(piecePtr);
 
     player1 = new Player("Black", false, piecePtr, blackPieces);
-    cout<<"Set name of palyer as Black? (y/n): ";
+    cout<<"Set name of palyer as Black? (y/n) [y]: ";
     cin>>check;
     if(check == 'n'){
         cout<<"Please enter your name: ";
@@ -137,7 +139,7 @@ void Game::initialize(){
     whitePieces.insert(piecePtr);
 
     player2 = new Player("White", true, piecePtr, whitePieces);
-    cout<<"Set name of palyer as White? (y/n): ";
+    cout<<"Set name of palyer as White? (y/n) [y]: ";
     cin>>check;
     if(check == 'n'){
         cout<<"Please enter your name: ";

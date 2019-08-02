@@ -13,7 +13,7 @@ class Knight : public Piece{
 
         bool canMoveTo(Tile& toTile) const;
 
-        void display();
+        void symbol();
 };
 
 #include "knight_impl.hpp"

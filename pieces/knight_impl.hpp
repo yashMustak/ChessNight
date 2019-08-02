@@ -23,7 +23,7 @@ bool Knight::canMoveTo(Tile& toTile) const{
     return validMove;
 }
 
-void Knight::display(){
+void Knight::symbol(){
     if(isWhite()) cout<<"N";
     else cout<<"n";
 }

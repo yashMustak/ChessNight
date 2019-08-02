@@ -3,25 +3,24 @@
 
 #include<ostream>
 
-#if defined(__unix__)
-#include "../restricted.hpp"
-#include "../tile.hpp"
-
-#elif defined(_WIN64)
-#include "..\restricted.hpp"
-#include "../tile.hpp"
-
-#elif defined(__APPLE__)
-#include "../restricted.hpp"
-#include "../tile.hpp"
-#endif
+#include "prereq.hpp"
 
 #include "queen.hpp"
 #include "rook.hpp"
 #include "bishop.hpp"
 #include "knight.hpp"
 
-class Pawn : public RestrictedPiece{
+#if defined(__unix__)
+#include "../player.hpp"
+
+#elif defined(_WIN64)
+#include "..\player.hpp"
+
+#elif defined(__APPLE__)
+#include "../player.hpp"
+#endif
+
+class Pawn : public Piece{
     public:
         Pawn(bool isWhite);
 
@@ -32,11 +31,16 @@ class Pawn : public RestrictedPiece{
         bool moveTo( Player& byPlayer, Tile& toTile );
 
         bool canMoveTo( Tile& toTile ) const;
+        
+        bool hasMoved() const;
 
-        void display();
+        void symbol();
 
     private:
+    	
         Piece* _promotedTo;
+        
+        bool _moved;
 };
 
 #include "pawn_impl.hpp"

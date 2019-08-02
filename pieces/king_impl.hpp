@@ -1,7 +1,7 @@
 /*
 ** King Implementation
 */
-King::King(bool isWhite) : RestrictedPiece(isWhite){
+King::King(bool isWhite) : Piece(isWhite){
 }
 
 King::~King(){
@@ -9,6 +9,17 @@ King::~King(){
 
 int King::getPriority() const{
     return 1;
+}
+
+bool King::moveTo(Player& byPlayer, Tile& toTile){
+    
+    bool valid = Piece::moveTo(byPlayer, toTile);
+
+    if(valid && !_moved){
+        _moved = true;
+    }
+
+    return valid;
 }
 
 bool King::canMoveTo ( Tile& toTile ) const{
@@ -29,7 +40,11 @@ bool King::canMoveTo ( Tile& toTile ) const{
     return validMove;
 }
 
-void King::display(){
+bool King::hasMoved() const{
+    return _moved;
+}
+
+void King::symbol(){
     if(isWhite()) cout<<"K";
     else cout<<"k";
 }

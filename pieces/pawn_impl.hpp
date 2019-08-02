@@ -1,7 +1,7 @@
 /*
 ** Pawn Implementation
 */
-Pawn::Pawn(bool isWhite) : RestrictedPiece(isWhite), _promotedTo(NULL){
+Pawn::Pawn(bool isWhite) : Piece(isWhite), _promotedTo(NULL){
 }
 
 Pawn::~Pawn(){
@@ -25,7 +25,12 @@ bool Pawn::moveTo(Player& byPlayer, Tile& toTile){
         }
     }
     else{
-        valid = RestrictedPiece::moveTo(byPlayer, toTile);
+    	
+        valid = Piece::moveTo(byPlayer, toTile);
+        
+        if(valid && !_moved){
+	        _moved = true;
+	    }
 
         if(valid){
             if(Board::getBoard()->isEndRow(&toTile)){
@@ -108,7 +113,11 @@ bool Pawn::canMoveTo(Tile& toTile) const{
     return validMove;
 }
 
-void Pawn::display(){
+bool Pawn::hasMoved() const{
+    return _moved;
+}
+
+void Pawn::symbol(){
     if(isWhite()) cout<<"P";
     else cout<<"p";
 }

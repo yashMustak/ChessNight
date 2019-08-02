@@ -13,7 +13,7 @@ class Rook : public Piece{
 
         bool canMoveTo(Tile& toTile) const;
 
-        void display();
+        void symbol();
 };
 
 #include "rook_impl.hpp"

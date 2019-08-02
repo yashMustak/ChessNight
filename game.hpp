@@ -3,9 +3,8 @@
 
 #include<set>
 
-#include "board.hpp"
-#include "piece.hpp"
-#include "player.hpp"
+#include "common.hpp"
+
 
 #if defined(__unix__)
 #include "pieces/king.hpp"

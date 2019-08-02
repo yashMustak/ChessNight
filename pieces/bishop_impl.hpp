@@ -24,7 +24,7 @@ bool Bishop::canMoveTo(Tile& toTile) const{
     return validMove;
 }
 
-void Bishop::display(){
+void Bishop::symbol(){
     if(isWhite()) cout<<"B";
     else cout<<"b";
 }

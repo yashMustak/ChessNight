@@ -11,15 +11,15 @@ Board::Board(){
 	}
 }
 
-Board::~Board(){
-	for(int i = 0; i < _DIMENSION; i++){
-		for(int j = 0; j < _DIMENSION; j++){
-			delete[] _TileArr[i][j];
-		}
-		delete[] _TileArr[i];
-	}
-	delete[] _TileArr;
-}
+//Board::~Board(){
+//	for(int i = 0; i < _DIMENSION; i++){
+//		for(int j = 0; j < _DIMENSION; j++){
+//			delete[] _TileArr[i][j];
+//		}
+//		delete[] _TileArr[i];
+//	}
+////	delete[] _TileArr;
+//}
 
 Board* Board::getBoard(){
 	if(_BOARD) return _BOARD;
@@ -97,7 +97,7 @@ bool Board::isClearDiagonal(Tile &from, Tile &to) const{
 }
 
 bool Board::isEndRow(Tile* thisTile) const{
-	if(thisTile->getY == 0 || thisTile->getY == 7) return true;
+	if(thisTile->getY() == 0 || thisTile->getY() == 7) return true;
 	else return false;
 }
 
@@ -123,12 +123,18 @@ void Board::display() const{
 		for(int j = -1; j <= _DIMENSION; j++){
 			if(j == -1) cout<<i+1<<"\t";
 			else{
-				if(j == 8) cout<<"\t"<<i+1;
+				if(j == 8) cout<<"\t"<<i+1<<endl;
 				else{
-					if(!_TileArr[i][j]->isEmpty) _TileArr[i][j]->getPiece->display();
+					if(!_TileArr[i][j]->isEmpty()){
+						_TileArr[i][j]->getPiece()->symbol();
+						cout<<" ";	
+					}
 					else{
-						if(_TileArr[i][j]->getX % 2 == 0 && _TileArr[i][j]->getY % 2 == 0) cout<<"- ";
-						else cout<<" +";
+						if(i % 2 == 0 && j % 2 == 0) cout<<"- ";
+						else{
+							if(i % 2 != 0 && j % 2 != 0) cout<<"- ";
+							else cout<<"+ ";
+						}
 					}
 				}
 			}

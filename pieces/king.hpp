@@ -3,30 +3,37 @@
 
 #include<ostream>
 
+#include "prereq.hpp"
+
 #if defined(__unix__)
-#include "../restricted.hpp"
-#include "../tile.hpp"
+#include "../player.hpp"
 
 #elif defined(_WIN64)
-#include "..\restricted.hpp"
-#include "../tile.hpp"
+#include "..\player.hpp"
 
 #elif defined(__APPLE__)
-#include "../restricted.hpp"
-#include "../tile.hpp"
+#include "../player.hpp"
 #endif
 
-class King : public RestrictedPiece{
+class King : public Piece{
     public:
         King(bool isWhite);
 
         ~King();
 
         int getPriority() const;
+        
+        bool moveTo( Player& byPlayer, Tile& toTile );
 
         bool canMoveTo(Tile& toTile) const;
+        
+        bool hasMoved() const;
 
-        void display();
+        void symbol();
+        
+    private:
+    	
+    	bool _moved;
 };
 
 #include "king_impl.hpp"

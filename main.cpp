@@ -1,7 +1,6 @@
 #include <iostream>
 
-#include "game.hpp"
-#include "board.hpp"
+#include "common.hpp"
 
 int main(int argc, char * const argv[]){
     Player* currentPlayer = NULL;
@@ -17,5 +16,4 @@ int main(int argc, char * const argv[]){
         }
         Board::getBoard()->display();
     }
-    
 }

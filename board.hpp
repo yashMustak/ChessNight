@@ -1,8 +1,10 @@
 #ifndef board_header
 #define board_header
 
-#include<ostream>
-#include"tile.hpp"
+#include <iostream>
+//#include "common.hpp"
+#include "tile.hpp"
+#include "piece.hpp"
 
 using namespace std;
 
@@ -16,7 +18,7 @@ class Board{
 	
 	public:
 		
-		~Board();
+//		~Board();
 		
 		static Board* getBoard ();
 		

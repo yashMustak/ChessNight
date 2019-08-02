@@ -3,6 +3,7 @@
 
 #include<iostream>
 
+//#include "common.hpp"
 #include "tile.hpp"
 #include "board.hpp"
 #include "player.hpp"
@@ -61,7 +62,7 @@ class Piece{
 		*/
 		bool isWhite() const;
 		
-		virtual void display();
+		virtual void symbol();
 		
 		void setLocation(Tile* setTile);
 		
