@@ -1,5 +1,0 @@
-#include "board.hpp"
-#include "game.hpp"
-#include "piece.hpp"
-#include "player.hpp"
-#include "tile.hpp"

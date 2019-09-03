@@ -1,73 +1,42 @@
-/*
-** Piece implementation
-*/
-#include<iostream>
+// Implementation of Piece
 
-using namespace std;
-
-Piece::Piece(bool isWhite) : _isWhite(isWhite), _tile(NULL){
-	if(_isWhite) _color = 'W';
-	else _color = 'B';
+Piece::Piece(bool isWhite) : _isWhite(isWhite)
+{
 }
 
-Piece::~Piece(){
+bool Piece::moveTo(bool isWhite, Tile *toTile)
+{
+    if (isWhite == this->getColor())
+    {
+        if (this->canMoveTo(toTile))
+        {
+            if (!toTile->isEmpty())
+            {
+                delete toTile->getPiece();
+            }
+            this->getPosition()->setPiece(NULL);
+            this->setPosition(toTile);
+            toTile->setPiece(this);
+            return true;
+        }
+        else
+            return false;
+    }
+    else
+        return false;
 }
 
-bool Piece::moveTo(Player& byPlayer, Tile& toTile){
-	
-	bool valid = false;	
-	
-	if(_isWhite == byPlayer.isWhite()){
-		if(canMoveTo(toTile)){
-			if(!byPlayer.inCheck()){
-				if(toTile.isEmpty()){
-					valid = true;
-					_tile = &toTile;
-				}
-				else{
-					Piece* capturePiece = NULL;
-					if(toTile.getPiece()->isWhite() != _isWhite){
-						capturePiece = toTile.getPiece();
-						capturePiece->setLocation(NULL);
-						toTile.setPiece(this);
-						_tile = &toTile;
-						valid = true;
-						byPlayer.capture(capturePiece);
-					}
-					else valid = false;
-				}
-			}
-			else {
-				// throw an error
-				cout<<"This move will let the king in Check";
-			}
-		}
-		else{
-			// throw an error
-			cout<<"This is an invalid move for this piece";
-		}
-	}
-	else{
-		// throw an error
-		cout<<"This piece do not belong to current player";
-	}
-	
-	return valid;
+void Piece::setPosition(Tile *tile)
+{
+    this->_currentTile = tile;
 }
 
-char Piece::getColor() const{
-	return _color;
+Tile *Piece::getPosition() const
+{
+    return _currentTile;
 }
 
-bool Piece::isWhite() const{
-	if(_isWhite) return true;
-	else return false;
-}
-
-void Piece::setLocation(Tile* setTile){
-	_tile = setTile;
-}
-
-Tile* Piece::getLocation() const{
-	return _tile;
+bool Piece::getColor() const
+{
+    return _isWhite;
 }

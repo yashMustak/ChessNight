@@ -1,40 +1,30 @@
 #ifndef board_header
-#define board_header
+#define biard_header
 
-#include <iostream>
-//#include "common.hpp"
 #include "tile.hpp"
 #include "piece.hpp"
 
-using namespace std;
+class Board
+{
+public:
+    Board();
 
-class Board{
-	
-	Board ();
-	
-	static Board* _BOARD;
-	static const int _DIMENSION = 8;
-	Tile* _TileArr[_DIMENSION][_DIMENSION];
-	
-	public:
-		
-//		~Board();
-		
-		static Board* getBoard ();
-		
-		Tile* tileAt ( int x, int y ) const;
-		
-		bool isClearVertical ( Tile &from, Tile &to ) const;
-		
-		bool isClearHorizontal ( Tile &from, Tile &to ) const;
-		
-		bool isClearDiagonal ( Tile &from, Tile &to ) const;
+    Tile *tileAt(int x, int y) const;
 
-		bool isEndRow(Tile* thisTile) const;
-		
-		void display() const;
+    bool isEmptyVertical(Tile *from, Tile *to) const;
+
+    bool isEmptyHorizontal(Tile *from, Tile *to) const;
+
+    bool isEmptyDiagonal(Tile *from, Tile *to) const;
+
+    void display();
+
+private:
+    static const int _DIMENSION = 8;
+
+    Tile *_tileArr[_DIMENSION][_DIMENSION];
 };
 
-#include"board_impl.hpp"
+#include "board_impl.hpp"
 
 #endif

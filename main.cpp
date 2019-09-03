@@ -1,19 +1,28 @@
-#include <iostream>
+#include "game.hpp"
 
-#include "common.hpp"
-
-int main(int argc, char * const argv[]){
-    Player* currentPlayer = NULL;
-
-    Game::initialize();
-    Board::getBoard()->display();
+int main()
+{
+    Game newGame;
+    newGame.initialize();
+    newGame.getBoard()->display();
+    bool validMove = true;
 
     while (true)
     {
-        currentPlayer = Game::nextPlayer();
-        while(!currentPlayer->makeMove()){
-            cerr << "Invalid move... Try again" << endl;
+        cout << newGame.currentPlayer()->getName() << " make your move (eg. A5 B6): ";
+        validMove = newGame.currentPlayer()->makeMove(newGame.getBoard());
+        while (!validMove)
+        {
+            cout << "Invalid move please try again: ";
+            validMove = newGame.currentPlayer()->makeMove(newGame.getBoard());
         }
-        Board::getBoard()->display();
+        newGame.getBoard()->display();
+        newGame.setCurrentPlayer(newGame.nextPlayer());
+
+        if (newGame.getPlayerWon())
+        {
+            cout << "Congragulations !! " << newGame.getPlayerWon()->getName();
+            break;
+        }
     }
 }

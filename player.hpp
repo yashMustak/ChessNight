@@ -1,58 +1,51 @@
-#ifndef player_header
-#define player_header
+#ifndef Player_header
+#define Player_header
 
-#include <iostream>
+#include <string>
 #include <set>
-#include <iterator>
-//#include "common.hpp"
+
 #include "piece.hpp"
+#include ".\pieces\king.hpp"
 #include "board.hpp"
-#include "game.hpp"
 
-#if defined(__unix__)
-#include "pieces/king.hpp"
+class Player
+{
+public:
+    Player(std::string name, bool isWhite);
 
-#elif defined(_WIN64)
-#include "pieces\king.hpp"
+    bool makeMove(Board *thisBoard);
 
-#elif defined(__APPLE__)
-#include "pieces/king.hpp"
-#endif
+    bool inCheck();
 
-class Player{
-	
-	public:
-		Player(string name, bool isWhite, King &myKing, set<Piece*> &myPieces);
-		
-		~Player();
-		
-		void changeName(string newName);
-		
-		bool makeMove();
-		
-		bool inCheck();
-		
-		void capture(Piece* capturePiece);
-		
-		string getName() const;
-		
-		bool isWhite() const;
-		
-		int score() const;
-		
-		set<Piece*>* getMyPieces() const;
-		
-		King* getKing() const;
+    bool isValidMove(Piece *thistPiece, Tile *toTile);
 
-	private:
+    void changeName(std::string newName);
 
-		string _name;
-		bool _isWhite;
-		King& _myKing;
-		set<Piece*>& _myPieces;
-		set<Piece*> _captured;
+    void setOppositePieces(set<Piece *> *oppositePiece);
+
+    bool getColor() const;
+
+    King *getKing() const;
+
+    set<Piece *> getPieceSet() const;
+
+    std::string getName() const;
+
+    set<Piece *> *getOppositePieces() const;
+
+    std::set<Piece *> getPeices() const;
+
+    std::set<Piece *> getCaptured() const;
+
+private:
+    King *_myKing;
+    std::string _name;
+    bool _isWhite;
+    set<Piece *> *_oppositePieces;
+    std::set<Piece *> _myPieces;
+    std::set<Piece *> _capturedPieces;
 };
 
-#include"player_impl.hpp"
+#include "player_impl.hpp"
 
 #endif

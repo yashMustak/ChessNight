@@ -1,39 +1,55 @@
-/*
-** Queen Implementation
-*/
-Queen::Queen(bool isWhite) : Piece(isWhite){
+// implementation of Queen
+
+Queen::Queen(bool isWhite) : Piece(isWhite)
+{
 }
 
-Queen::~Queen(){
-}
+bool Queen::canMoveTo(Tile *toTile)
+{
+    Tile *onTile = this->getPosition();
 
-int Queen::getPriority() const{
-    return 2;
-}
+    Board *inBoard = toTile->getBoard();
 
-bool Queen::canMoveTo(Tile& toTile) const{
-    bool validMove = false;
-    int delX = abs(this->getLocation()->getX() - toTile.getX());
-    int delY = abs(this->getLocation()->getY() - toTile.getY());
-
-    if(Board::getBoard()->isClearDiagonal(*this->getLocation(), toTile)){
-        if(delX == delY) validMove = true;
+    if (inBoard->isEmptyDiagonal(onTile, toTile))
+    {
+        return true;
     }
-    else{
-        if(Board::getBoard()->isClearHorizontal(*this->getLocation(), toTile)){
-            if(delX == 0) validMove = true;
+    else
+    {
+        if (inBoard->isEmptyHorizontal(onTile, toTile))
+        {
+            return true;
         }
-        else{
-            if(Board::getBoard()->isClearVertical(*this->getLocation(), toTile)){
-                if(delY == 0) validMove = true;
+        else
+        {
+            if (inBoard->isEmptyVertical(onTile, toTile))
+            {
+                return true;
             }
+            return false;
         }
     }
-    
-    return validMove;
 }
 
-void Queen::symbol(){
-    if(isWhite()) cout<<"Q";
-    else cout<<"q";
+void Queen::symbol()
+{
+    HANDLE hConsole;
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    if (this->getColor())
+    {
+        SetConsoleTextAttribute(hConsole, 1); //15
+        std::cout << "Q";
+    }
+    else
+    {
+        SetConsoleTextAttribute(hConsole, 4); //240
+        std::cout << "q";
+    }
+    SetConsoleTextAttribute(hConsole, 15);
+}
+
+int Queen::getPriority() const
+{
+    return _priority;
 }

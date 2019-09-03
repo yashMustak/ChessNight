@@ -1,85 +1,36 @@
-#ifndef piece_header
-#define piece_header
+#ifndef Piece_header
+#define Piece_header
 
-#include<iostream>
-
-//#include "common.hpp"
 #include "tile.hpp"
-#include "board.hpp"
-#include "player.hpp"
 
-using namespace std;
+#if defined(_WIN64)
+#include <windows.h>
+#endif
 
-class Piece{
-	
-	public:
-		
-		/*
-		**	Creates a piece
-		**	
-		**	@params: (bool) colour boolean
-		**	@return: NA
-		*/
-		Piece(bool isWhite);
-		
-		/*
-		**	Destructor in case if piece is dead
-		**	
-		**	@params: NA
-		**	@return: NA
-		*/
-		virtual ~Piece();
-		
-		/*
-		**	Verify wether the player plays its own pieces
-		**	
-		**	@params: (Player object), (Tile object)
-		**	@return: (boolean) true if valid
-		*/	
-		virtual bool moveTo ( Player& byPlayer, Tile& toTile );
-		
-		/*
-		**	Verify the valid move according to the piece
-		**	
-		**	@params: (Tile object)
-		**	@return: (boolean) true if valid
-		*/
-		virtual bool canMoveTo ( Tile& toTile );
-		
-		/*
-		**	Return colour name
-		**	
-		**	@params: ()
-		**	@return: (char) "W" for white and "B" for black
-		*/
-		char getColor() const;
-		
-		/*
-		**	Verify if piece is white or not
-		**	
-		**	@params: ()
-		**	@return: (boolean) true if valid
-		*/
-		bool isWhite() const;
-		
-		virtual void symbol();
-		
-		void setLocation(Tile* setTile);
-		
-		Tile* getLocation() const;
-		
-		virtual int getPriority();
+class Piece
+{
+public:
+    Piece(bool isWhite);
 
-	protected:
+    virtual bool moveTo(bool isWhite, Tile *toTile);
 
-		bool _isWhite;
-		char _color;
+    virtual bool canMoveTo(Tile *toTile) = 0;
 
-	private:
+    virtual void symbol() = 0;
 
-		Tile* _tile;
+    virtual int getPriority() const = 0;
+
+    void setPosition(Tile *tile);
+
+    Tile *getPosition() const;
+
+    bool getColor() const;
+
+protected:
+    bool _isWhite;
+    Tile *_currentTile;
 };
 
-#include"piece_impl.hpp"
+#include "piece_impl.hpp"
 
 #endif

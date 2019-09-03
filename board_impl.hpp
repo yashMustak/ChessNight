@@ -1,107 +1,106 @@
-/*
-**	board implementation
-*/
-#include<cstdlib>
+// implementation of Board
 
-Board::Board(){
-	for(int i = 0; i < _DIMENSION; i++){
-		for(int j = 0; j < _DIMENSION; j++){
-			_TileArr[i][j] = new Tile(i, j);
-		}
-	}
+Board::Board()
+{
+    for (int i = 0; i < _DIMENSION; i++)
+    {
+        for (int j = 0; j < _DIMENSION; j++)
+        {
+            _tileArr[i][j] = new Tile(i, j, this);
+        }
+    }
 }
 
-//Board::~Board(){
-//	for(int i = 0; i < _DIMENSION; i++){
-//		for(int j = 0; j < _DIMENSION; j++){
-//			delete[] _TileArr[i][j];
-//		}
-//		delete[] _TileArr[i];
-//	}
-////	delete[] _TileArr;
-//}
+bool Board::isEmptyVertical(Tile *from, Tile *to) const
+{
+    int fromX, fromY, toX, toY;
 
-Board* Board::getBoard(){
-	if(_BOARD) return _BOARD;
-	else _BOARD = new Board();
+    fromX = from->getX();
+    fromY = from->getY();
+    toX = to->getX();
+    toY = to->getY();
+
+    if (fromY == toY)
+    {
+        for (int i = fromX + 1; i < toX; i++)
+        {
+            if (!_tileArr[i][toY]->isEmpty())
+                return false;
+        }
+        if (!to->isEmpty())
+        {
+            if (_tileArr[toX][toY]->getPiece()->getColor() == from->getPiece()->getColor())
+                return false;
+        }
+        return true;
+    }
+    else
+        return false;
 }
 
-Tile* Board::tileAt(int x, int y) const{
-	if(x >= 0 && x < 8 && y >= 0 && y < 8) return _TileArr[x][y];
+bool Board::isEmptyHorizontal(Tile *from, Tile *to) const
+{
+    int fromX, fromY, toX, toY;
+
+    fromX = from->getX();
+    fromY = from->getY();
+    toX = to->getX();
+    toY = to->getY();
+
+    if (fromX == toX)
+    {
+
+        for (int i = fromY + 1; i < toY; i++)
+        {
+            if (!_tileArr[fromX][i]->isEmpty())
+                return false;
+        }
+        if (!to->isEmpty())
+        {
+            if (_tileArr[toX][toY]->getPiece()->getColor() == from->getPiece()->getColor())
+                return false;
+        }
+        return true;
+    }
+    else
+        return false;
 }
 
-bool Board::isClearVertical(Tile &from, Tile &to) const{
-	
-	int startX = from.getX();
-	int startY = from.getY();
-	int endX = to.getX();
-	int endY = to.getY();
-	int checkY;
-	
-	if(startX == endX){
-		int increament = (endY - startY) / abs(endY - startY);
-		checkY = startY + increament;
-		Tile* check = _TileArr[startX][checkY];
-		while (check->isEmpty() && checkY != endY){
-			checkY = checkY + increament;
-			check = _TileArr[startX][checkY];
-		}
-		if(checkY == endY) return true;
-		else return false;
-	}
+bool Board::isEmptyDiagonal(Tile *from, Tile *to) const
+{
+    int fromX, fromY, toX, toY;
+
+    fromX = from->getX();
+    fromY = from->getY();
+    toX = to->getX();
+    toY = to->getY();
+
+    if (std::abs(fromX - toX) == std::abs(fromY - toY))
+    {
+        int increament = (toX - fromX) / std::abs(toX - fromX);
+        int diff = abs(toX - fromX);
+        for (int i = 1; i < diff - 1; i++)
+        {
+            if (!_tileArr[fromX + increament][fromY + increament]->isEmpty())
+                return false;
+        }
+        if (!to->isEmpty())
+        {
+            if (_tileArr[toX][toY]->getPiece()->getColor() == from->getPiece()->getColor())
+                return false;
+        }
+        return true;
+    }
+    else
+        return false;
 }
 
-bool Board::isClearHorizontal(Tile &from, Tile &to) const{
-	
-	int startX = from.getX();
-	int startY = from.getY();
-	int endX = to.getX();
-	int endY = to.getY();
-	int checkX;
-	
-	if(startY == endY){
-		int increament = (endX - startX) / abs(endX - startX);
-		checkX = startX + increament;
-		Tile* check = _TileArr[checkX][startY];
-		while (check->isEmpty() && checkX != endX){
-			checkX = checkX + increament;
-			check = _TileArr[checkX][startY];
-		}
-		if(checkX == endX) return true;
-		else return false;
-	}
+Tile *Board::tileAt(int x, int y) const
+{
+    return _tileArr[x][y];
 }
 
-bool Board::isClearDiagonal(Tile &from, Tile &to) const{
-	
-	int startX = from.getX();
-	int startY = from.getY();
-	int endX = to.getX();
-	int endY = to.getY();
-	int checkX;
-	int checkY;
-	
-	if(abs(startY-endY) == abs(startX-endX)){
-		int increament = (endX - startX) / abs(endX - startX);
-		checkX = startX + increament;
-		checkY = startY + increament;
-		Tile* check = _TileArr[checkX][checkY];
-		while (check->isEmpty() && checkX != endX){
-			checkX = checkX + increament;
-			checkY = checkY + increament;
-			check = _TileArr[checkX][checkY];
-		}
-		if(checkX == endX) return true;
-		else return false;
-	}
-}
-
-bool Board::isEndRow(Tile* thisTile) const{
-	if(thisTile->getY() == 0 || thisTile->getY() == 7) return true;
-	else return false;
-}
-
-
+using namespace std;
 /*
 **	 	A B C D E F G H
 ** 	
@@ -116,30 +115,58 @@ bool Board::isEndRow(Tile* thisTile) const{
 **	
 **	 	A B C D E F G H
 */
-void Board::display() const{
-	
-	cout<<" \tA B C D E F G H"<<endl<<endl;
-	for(int i = 0; i < _DIMENSION; i++){
-		for(int j = -1; j <= _DIMENSION; j++){
-			if(j == -1) cout<<i+1<<"\t";
-			else{
-				if(j == 8) cout<<"\t"<<i+1<<endl;
-				else{
-					if(!_TileArr[i][j]->isEmpty()){
-						_TileArr[i][j]->getPiece()->symbol();
-						cout<<" ";	
-					}
-					else{
-						if(i % 2 == 0 && j % 2 == 0) cout<<"- ";
-						else{
-							if(i % 2 != 0 && j % 2 != 0) cout<<"- ";
-							else cout<<"+ ";
-						}
-					}
-				}
-			}
-		}
-	}
-	cout<<endl<<endl<<" \tA B C D E F G H";
-}
+void Board::display()
+{
+    HANDLE hConsole;
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
+    cout << " \tA B C D E F G H" << endl
+         << endl;
+    for (int i = 0; i < _DIMENSION; i++)
+    {
+        for (int j = -1; j <= _DIMENSION; j++)
+        {
+            if (j == -1)
+                cout << i + 1 << "\t";
+            else
+            {
+                if (j == _DIMENSION)
+                    cout << "\t" << i + 1 << endl;
+                else
+                {
+                    if (!_tileArr[i][j]->isEmpty())
+                    {
+                        _tileArr[i][j]->getPiece()->symbol();
+                        cout << " ";
+                    }
+                    else
+                    {
+                        if (i % 2 == 0 && j % 2 == 0)
+                        {
+                            SetConsoleTextAttribute(hConsole, 8);
+                            cout << "- ";
+                            SetConsoleTextAttribute(hConsole, 15);
+                        }
+                        else
+                        {
+                            if (i % 2 != 0 && j % 2 != 0)
+                            {
+                                SetConsoleTextAttribute(hConsole, 8);
+                                cout << "- ";
+                                SetConsoleTextAttribute(hConsole, 15);
+                            }
+                            else
+                            {
+                                SetConsoleTextAttribute(hConsole, 15);
+                                cout << "+ ";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    cout << endl
+         << endl
+         << " \tA B C D E F G H" << endl;
+}

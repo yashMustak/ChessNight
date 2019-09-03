@@ -1,19 +1,23 @@
-#ifndef knight_header
-#define knight_header
+#ifndef Knight_header
+#define Knight_header
 
-#include "prereq.hpp"
+#include <cstdlib>
 
-class Knight : public Piece{
-    public:
-        Knight(bool isWhite);
+#include "..\piece.hpp"
 
-        ~Knight();
+class Knight : public Piece
+{
+public:
+    Knight(bool isWhite);
 
-        int getPriority() const;
+    bool canMoveTo(Tile *toTile);
 
-        bool canMoveTo(Tile& toTile) const;
+    void symbol();
 
-        void symbol();
+    int getPriority() const;
+
+private:
+    static const int _priority = 4;
 };
 
 #include "knight_impl.hpp"

@@ -1,123 +1,150 @@
-/*
-** Pawn Implementation
-*/
-Pawn::Pawn(bool isWhite) : Piece(isWhite), _promotedTo(NULL){
+// implementation of Pawn
+
+Pawn::Pawn(bool isWhite) : Piece(isWhite)
+{
 }
 
-Pawn::~Pawn(){
-}
+bool Pawn::moveTo(bool isWhite, Tile *toTile)
+{
+    bool ret = false;
 
-int Pawn::getPriority() const{
-    return 5;
-}
+    if (isWhite == this->getColor())
+    {
+        if (this->canMoveTo(toTile))
+        {
+            if (!toTile->isEmpty())
+            {
+                delete toTile->getPiece();
+            }
+            this->getPosition()->setPiece(NULL);
+            this->setPosition(toTile);
+            toTile->setPiece(this);
 
-bool Pawn::moveTo(Player& byPlayer, Tile& toTile){
-    
-    bool valid = false;
-    
-    if(_promotedTo){
-        valid = _promotedTo->moveTo(byPlayer, toTile);
-
-        if(valid){
-            getLocation()->setPiece(NULL);
-            setLocation(&toTile);
-            toTile.setPiece(this);
-        }
-    }
-    else{
-    	
-        valid = Piece::moveTo(byPlayer, toTile);
-        
-        if(valid && !_moved){
-	        _moved = true;
-	    }
-
-        if(valid){
-            if(Board::getBoard()->isEndRow(&toTile)){
-                char pieceInput;
-                cout<<"Select the Piece to which this pawn to be converted (type Q-Queen, N-Knight, B-Bishp, R-Rook, P-Pawn): ";
-                cin>>pieceInput;
-                switch (pieceInput)
+            if (toTile->getX() == 0)
+            {
+                char newPiece;
+                std::cout << "Select the Piece to which this pawn to be converted: ";
+                std::cin >> newPiece;
+                switch (newPiece)
                 {
                 case 'Q':
-                    _promotedTo = new Queen(isWhite);
-                    _promotedTo->setLocation(&toTile);
-                    getLocation()->setPiece(NULL);
-                    toTile.setPiece(_promotedTo);
+                {
+                    Queen *newQueen = new Queen(isWhite);
+                    newQueen->setPosition(toTile);
+                    toTile->setPiece(newQueen);
+                    delete this;
                     break;
-
-                case 'N':
-                    _promotedTo = new Knight(isWhite);
-                    _promotedTo->setLocation(&toTile);
-                    getLocation()->setPiece(NULL);
-                    toTile.setPiece(_promotedTo);
-                    break;
+                }
 
                 case 'R':
-                    _promotedTo = new Rook(isWhite);
-                    _promotedTo->setLocation(&toTile);
-                    getLocation()->setPiece(NULL);
-                    toTile.setPiece(_promotedTo);
+                {
+                    Rook *newRook = new Rook(isWhite);
+                    newRook->setPosition(toTile);
+                    toTile->setPiece(newRook);
+                    delete this;
                     break;
+                }
+
+                case 'N':
+                {
+                    Knight *newKnight = new Knight(isWhite);
+                    newKnight->setPosition(toTile);
+                    toTile->setPiece(newKnight);
+                    delete this;
+                    break;
+                }
 
                 case 'B':
-                    _promotedTo = new Bishop(isWhite);
-                    _promotedTo->setLocation(&toTile);
-                    getLocation()->setPiece(NULL);
-                    toTile.setPiece(_promotedTo);
-                    break;
-                
-                case 'P':
-                    getLocation()->setPiece(NULL);
-                    setLocation(&toTile);
-                    toTile.setPiece(this);
-                    break;
-                
-                default:
-                    cout<<"Incorrect input: Retaining as Pawn";
+                {
+                    Bishop *newBishop = new Bishop(isWhite);
+                    newBishop->setPosition(toTile);
+                    toTile->setPiece(newBishop);
+                    delete this;
                     break;
                 }
+
+                default:
+                {
+                    std::cout << "Incorrect input: Retaining as Pawn" << std::endl;
+                    break;
+                }
+                }
             }
+            ret = true;
         }
     }
-    return valid;
+    if (!_moved)
+        _moved = true;
+    return ret;
 }
 
-bool Pawn::canMoveTo(Tile& toTile) const{
-    bool validMove = false;
-    int delX = abs(this->getLocation()->getX() - toTile.getX());
-    int delY = abs(this->getLocation()->getY() - toTile.getY());
+bool Pawn::canMoveTo(Tile *toTile)
+{
+    int curX, curY, toX, toY;
 
-    if(_promotedTo){
-        validMove = _promotedTo->canMoveTo(toTile);
+    Tile *onTile = this->getPosition();
+
+    Board *inBoard = toTile->getBoard();
+
+    bool validMove = false;
+    int delX = toTile->getX() - this->getPosition()->getX();
+    int delY = toTile->getY() - this->getPosition()->getY();
+
+    if (this->getColor())
+    {
+        delX *= -1;
     }
-    else{
-        if(!isWhite()){
-            delY *= -1;
-        }
-        if(toTile.isEmpty()){
-            if(delX == 0 && delY == 1) validMove = true;
-            else{
-                if(!hasMoved()){
-                    if(Board::getBoard()->isClearVertical(*this->getLocation(), toTile)){
-                        if(delX == 0 && delY == 2) validMove = true;
-                    }
+    if (toTile->isEmpty())
+    {
+        if (delY == 0 && delX == 1)
+            validMove = true;
+        else
+        {
+            if (!this->hasMoved())
+            {
+                if (inBoard->isEmptyVertical(onTile, toTile))
+                {
+                    if (delY == 0 && delX == 2)
+                        validMove = true;
                 }
             }
         }
-        if(toTile.getPiece()->isWhite() != this->isWhite()){
-            if(abs(delX) == 1 && delY == 1) validMove = true;
+    }
+    else
+    {
+        if (toTile->getPiece()->getColor() != this->getColor())
+        {
+            if (abs(delY) == 1 && delX == 1)
+                validMove = true;
         }
     }
-    
     return validMove;
 }
 
-bool Pawn::hasMoved() const{
+void Pawn::symbol()
+{
+    HANDLE hConsole;
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    if (this->getColor())
+    {
+        SetConsoleTextAttribute(hConsole, 1); //15
+        std::cout << "P";
+    }
+    else
+    {
+        SetConsoleTextAttribute(hConsole, 4); //240
+        std::cout << "p";
+    }
+    SetConsoleTextAttribute(hConsole, 15);
+}
+
+bool Pawn::hasMoved() const
+{
     return _moved;
 }
 
-void Pawn::symbol(){
-    if(isWhite()) cout<<"P";
-    else cout<<"p";
+int Pawn::getPriority() const
+{
+    return _priority;
 }

@@ -1,165 +1,254 @@
-/*
-** Game implementation
-*/
-Game::~Game(){
-    for(set<Piece*>::iterator itr = whitePieces.begin(); itr != whitePieces.end(); ++itr){
-        delete *itr;
-    }
-    whitePieces.clear();
-    for(set<Piece*>::iterator itr = blackPieces.begin(); itr != blackPieces.end(); ++itr){
-        delete *itr;
-    }
-    blackPieces.clear();
+// implementation of Game
 
-    delete player1;
-    delete player2;
+Game::Game() : _playerWon(NULL)
+{
 }
 
-void Game::initialize(){
-    Piece* piecePtr;
-    Tile* tilePtr;
-    string setName;
+void Game::initialize()
+{
+    _newBoard = new Board;
+    Piece *piecePtr;
+    Tile *tilePtr;
+    std::string setName;
     char check;
 
-    whitePieces = *(new set<Piece*>);
-    blackPieces = *(new set<Piece*>);
-
-    // Queens creation for both colors
+    // Queens declaration
     piecePtr = new Queen(false);
-    tilePtr = Board::getBoard()->tileAt(3, 0);
-    piecePtr->setLocation(tilePtr);
+    tilePtr = _newBoard->tileAt(0, 3);
+    piecePtr->setPosition(tilePtr);
     tilePtr->setPiece(piecePtr);
-    blackPieces.insert(piecePtr);
+    _blackPieces.insert(piecePtr);
     piecePtr = new Queen(true);
-    tilePtr = Board::getBoard()->tileAt(3, 7);
-    piecePtr->setLocation(tilePtr);
+    tilePtr = _newBoard->tileAt(7, 3);
+    piecePtr->setPosition(tilePtr);
     tilePtr->setPiece(piecePtr);
-    whitePieces.insert(piecePtr);
+    _whitePieces.insert(piecePtr);
 
-    // Bishops
+    // Bishop declaration
     piecePtr = new Bishop(false);
-    tilePtr = Board::getBoard()->tileAt(2, 0);
-    piecePtr->setLocation(tilePtr);
+    tilePtr = _newBoard->tileAt(0, 2);
+    piecePtr->setPosition(tilePtr);
     tilePtr->setPiece(piecePtr);
-    blackPieces.insert(piecePtr);
+    _blackPieces.insert(piecePtr);
     piecePtr = new Bishop(false);
-    tilePtr = Board::getBoard()->tileAt(5, 0);
-    piecePtr->setLocation(tilePtr);
+    tilePtr = _newBoard->tileAt(0, 5);
+    piecePtr->setPosition(tilePtr);
     tilePtr->setPiece(piecePtr);
-    blackPieces.insert(piecePtr);
+    _blackPieces.insert(piecePtr);
     piecePtr = new Bishop(true);
-    tilePtr = Board::getBoard()->tileAt(2, 7);
-    piecePtr->setLocation(tilePtr);
+    tilePtr = _newBoard->tileAt(7, 2);
+    piecePtr->setPosition(tilePtr);
     tilePtr->setPiece(piecePtr);
-    whitePieces.insert(piecePtr);
+    _whitePieces.insert(piecePtr);
     piecePtr = new Bishop(true);
-    tilePtr = Board::getBoard()->tileAt(5, 7);
-    piecePtr->setLocation(tilePtr);
+    tilePtr = _newBoard->tileAt(7, 5);
+    piecePtr->setPosition(tilePtr);
     tilePtr->setPiece(piecePtr);
-    whitePieces.insert(piecePtr);
+    _whitePieces.insert(piecePtr);
 
-    // Knight
-    piecePtr = new Knight(false);
-    tilePtr = Board::getBoard()->tileAt(1, 0);
-    piecePtr->setLocation(tilePtr);
-    tilePtr->setPiece(piecePtr);
-    blackPieces.insert(piecePtr);
-    piecePtr = new Knight(false);
-    tilePtr = Board::getBoard()->tileAt(6, 0);
-    piecePtr->setLocation(tilePtr);
-    tilePtr->setPiece(piecePtr);
-    blackPieces.insert(piecePtr);
-    piecePtr = new Knight(true);
-    tilePtr = Board::getBoard()->tileAt(1, 7);
-    piecePtr->setLocation(tilePtr);
-    tilePtr->setPiece(piecePtr);
-    whitePieces.insert(piecePtr);
-    piecePtr = new Knight(true);
-    tilePtr = Board::getBoard()->tileAt(6, 7);
-    piecePtr->setLocation(tilePtr);
-    tilePtr->setPiece(piecePtr);
-    whitePieces.insert(piecePtr);
-
-    // Rook
+    // Rook declaration
     piecePtr = new Rook(false);
-    tilePtr = Board::getBoard()->tileAt(0, 0);
-    piecePtr->setLocation(tilePtr);
+    tilePtr = _newBoard->tileAt(0, 0);
+    piecePtr->setPosition(tilePtr);
     tilePtr->setPiece(piecePtr);
-    blackPieces.insert(piecePtr);
+    _blackPieces.insert(piecePtr);
     piecePtr = new Rook(false);
-    tilePtr = Board::getBoard()->tileAt(7, 0);
-    piecePtr->setLocation(tilePtr);
+    tilePtr = _newBoard->tileAt(0, 7);
+    piecePtr->setPosition(tilePtr);
     tilePtr->setPiece(piecePtr);
-    blackPieces.insert(piecePtr);
+    _blackPieces.insert(piecePtr);
     piecePtr = new Rook(true);
-    tilePtr = Board::getBoard()->tileAt(0, 7);
-    piecePtr->setLocation(tilePtr);
+    tilePtr = _newBoard->tileAt(7, 0);
+    piecePtr->setPosition(tilePtr);
     tilePtr->setPiece(piecePtr);
-    whitePieces.insert(piecePtr);
+    _whitePieces.insert(piecePtr);
     piecePtr = new Rook(true);
-    tilePtr = Board::getBoard()->tileAt(7, 7);
-    piecePtr->setLocation(tilePtr);
+    tilePtr = _newBoard->tileAt(7, 7);
+    piecePtr->setPosition(tilePtr);
     tilePtr->setPiece(piecePtr);
-    whitePieces.insert(piecePtr);
+    _whitePieces.insert(piecePtr);
 
-	// Pawn
-    for(int i = 0; i<8; i++){
-        piecePtr = new Pawn(false);
-        tilePtr = Board::getBoard()->tileAt(i, 1);
-        piecePtr->setLocation(tilePtr);
-        tilePtr->setPiece(piecePtr);
-        blackPieces.insert(piecePtr);
-        piecePtr = new Pawn(true);
-        tilePtr = Board::getBoard()->tileAt(i, 6);
-        piecePtr->setLocation(tilePtr);
-        tilePtr->setPiece(piecePtr);
-        whitePieces.insert(piecePtr);
-    }
-
-	// King
-    piecePtr = new King(false);
-    tilePtr = Board::getBoard()->tileAt(4, 0);
-    piecePtr->setLocation(tilePtr);
+    // Knight declaration
+    piecePtr = new Knight(false);
+    tilePtr = _newBoard->tileAt(0, 1);
+    piecePtr->setPosition(tilePtr);
     tilePtr->setPiece(piecePtr);
-    blackPieces.insert(piecePtr);
+    _blackPieces.insert(piecePtr);
+    piecePtr = new Knight(false);
+    tilePtr = _newBoard->tileAt(0, 6);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _blackPieces.insert(piecePtr);
+    piecePtr = new Knight(true);
+    tilePtr = _newBoard->tileAt(7, 1);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _whitePieces.insert(piecePtr);
+    piecePtr = new Knight(true);
+    tilePtr = _newBoard->tileAt(7, 6);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _whitePieces.insert(piecePtr);
 
-    player1 = new Player("Black", false, piecePtr, blackPieces);
-    cout<<"Set name of palyer as Black? (y/n) [y]: ";
-    cin>>check;
-    if(check == 'n'){
-        cout<<"Please enter your name: ";
-        cin>>setName;
+    // Pawn declaration
+    piecePtr = new Pawn(false);
+    tilePtr = _newBoard->tileAt(1, 0);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _blackPieces.insert(piecePtr);
+    piecePtr = new Pawn(false);
+    tilePtr = _newBoard->tileAt(1, 1);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _blackPieces.insert(piecePtr);
+    piecePtr = new Pawn(false);
+    tilePtr = _newBoard->tileAt(1, 2);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _blackPieces.insert(piecePtr);
+    piecePtr = new Pawn(false);
+    tilePtr = _newBoard->tileAt(1, 3);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _blackPieces.insert(piecePtr);
+    piecePtr = new Pawn(false);
+    tilePtr = _newBoard->tileAt(1, 4);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _blackPieces.insert(piecePtr);
+    piecePtr = new Pawn(false);
+    tilePtr = _newBoard->tileAt(1, 5);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _blackPieces.insert(piecePtr);
+    piecePtr = new Pawn(false);
+    tilePtr = _newBoard->tileAt(1, 6);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _blackPieces.insert(piecePtr);
+    piecePtr = new Pawn(false);
+    tilePtr = _newBoard->tileAt(1, 7);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _blackPieces.insert(piecePtr);
+
+    piecePtr = new Pawn(true);
+    tilePtr = _newBoard->tileAt(6, 0);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _whitePieces.insert(piecePtr);
+    piecePtr = new Pawn(true);
+    tilePtr = _newBoard->tileAt(6, 1);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _whitePieces.insert(piecePtr);
+    piecePtr = new Pawn(true);
+    tilePtr = _newBoard->tileAt(6, 2);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _whitePieces.insert(piecePtr);
+    piecePtr = new Pawn(true);
+    tilePtr = _newBoard->tileAt(6, 3);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _whitePieces.insert(piecePtr);
+    piecePtr = new Pawn(true);
+    tilePtr = _newBoard->tileAt(6, 4);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _whitePieces.insert(piecePtr);
+    piecePtr = new Pawn(true);
+    tilePtr = _newBoard->tileAt(6, 5);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _whitePieces.insert(piecePtr);
+    piecePtr = new Pawn(true);
+    tilePtr = _newBoard->tileAt(6, 6);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _whitePieces.insert(piecePtr);
+    piecePtr = new Pawn(true);
+    tilePtr = _newBoard->tileAt(6, 7);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _whitePieces.insert(piecePtr);
+
+    // King declaration
+    piecePtr = new King(true);
+    tilePtr = _newBoard->tileAt(7, 4);
+    piecePtr->setPosition(tilePtr);
+    tilePtr->setPiece(piecePtr);
+    _whitePieces.insert(piecePtr);
+
+    player1 = new Player("White", true);
+    std::cout << "Set name of palyer as \"White\"? (y/n): ";
+    std::cin >> check;
+    if (check == 'n')
+    {
+        cout << "Please enter your name: ";
+        cin >> setName;
         player1->changeName(setName);
     }
 
-    piecePtr = new King(true);
-    tilePtr = Board::getBoard()->tileAt(4, 7);
-    piecePtr->setLocation(tilePtr);
+    piecePtr = new King(false);
+    tilePtr = _newBoard->tileAt(0, 4);
+    piecePtr->setPosition(tilePtr);
     tilePtr->setPiece(piecePtr);
-    whitePieces.insert(piecePtr);
+    _blackPieces.insert(piecePtr);
 
-    player2 = new Player("White", true, piecePtr, whitePieces);
-    cout<<"Set name of palyer as White? (y/n) [y]: ";
-    cin>>check;
-    if(check == 'n'){
-        cout<<"Please enter your name: ";
-        cin>>setName;
+    player2 = new Player("Black", false);
+    std::cout << "Set name of palyer as \"Black\"? (y/n): ";
+    std::cin >> check;
+    if (check == 'n')
+    {
+        cout << "Please enter your name: ";
+        cin >> setName;
         player2->changeName(setName);
     }
 
-    currentPlayer = player2;
+    player1->setOppositePieces(&_blackPieces);
+    player2->setOppositePieces(&_whitePieces);
+
+    _currentPlayer = player1;
 }
 
-Player* Game::nextPlayer(){
-    currentPlayer = opponentOf(*currentPlayer);
-    return currentPlayer;
+Board *Game::getBoard()
+{
+    return _newBoard;
 }
 
-Player* Game::opponentOf(Player& thisPlayer){
-    Player* opponent;
-    
-    if(thisPlayer.isWhite() == player1->isWhite()) opponent = player2;
-    else opponent = player1;
+void Game::setPlayerWon(Player *playerWon)
+{
+    _playerWon = playerWon;
+}
 
-    return opponent;
+Player *Game::nextPlayer() const
+{
+    if (_currentPlayer == player1)
+        return player2;
+    else
+        return player1;
+}
+
+Player *Game::getPlayerWon() const
+{
+    return _playerWon;
+}
+
+void Game::setCurrentPlayer(Player *thisPlayer)
+{
+    _currentPlayer = thisPlayer;
+}
+
+Player *Game::currentPlayer() const
+{
+    return _currentPlayer;
+}
+
+Player *Game::opponentOf(Player *thisPlayer)
+{
+    if (thisPlayer == player1)
+        return player2;
+    else
+        return player1;
 }

@@ -1,30 +1,41 @@
-/*
-** Bishop Implementation
-*/
-Bishop::Bishop(bool isWhite) : Piece(isWhite){
+// implementation of Bishop
+
+Bishop::Bishop(bool isWhite) : Piece(isWhite)
+{
 }
 
-Bishop::~Bishop(){
-}
+bool Bishop::canMoveTo(Tile *toTile)
+{
+    Tile *onTile = this->getPosition();
 
-int Bishop::getPriority() const{
-    return 4;
-}
+    Board *inBoard = toTile->getBoard();
 
-bool Bishop::canMoveTo(Tile& toTile) const{
-    
-    bool validMove = false;
-    int delX = abs(this->getLocation()->getX() - toTile.getX());
-    int delY = abs(this->getLocation()->getY() - toTile.getY());
-
-    if(Board::getBoard()->isClearDiagonal(*this->getLocation(), toTile)){
-        if(delX == delY) validMove = true;
+    if (inBoard->isEmptyDiagonal(onTile, toTile))
+    {
+        return true;
     }
-    
-    return validMove;
+    return false;
 }
 
-void Bishop::symbol(){
-    if(isWhite()) cout<<"B";
-    else cout<<"b";
+void Bishop::symbol()
+{
+    HANDLE hConsole;
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    if (this->getColor())
+    {
+        SetConsoleTextAttribute(hConsole, 1); //15
+        std::cout << "B";
+    }
+    else
+    {
+        SetConsoleTextAttribute(hConsole, 4); //240
+        std::cout << "b";
+    }
+    SetConsoleTextAttribute(hConsole, 15);
+}
+
+int Bishop::getPriority() const
+{
+    return _priority;
 }

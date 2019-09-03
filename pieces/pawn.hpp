@@ -1,46 +1,32 @@
-#ifndef pawn_header
-#define pawn_header
+#ifndef Pawn_header
+#define Pawn_header
 
-#include<ostream>
+#include <cstdlib>
 
-#include "prereq.hpp"
-
+#include "..\piece.hpp"
 #include "queen.hpp"
 #include "rook.hpp"
 #include "bishop.hpp"
 #include "knight.hpp"
 
-#if defined(__unix__)
-#include "../player.hpp"
+class Pawn : public Piece
+{
+public:
+    Pawn(bool isWhite);
 
-#elif defined(_WIN64)
-#include "..\player.hpp"
+    bool moveTo(bool isWhite, Tile *toTile);
 
-#elif defined(__APPLE__)
-#include "../player.hpp"
-#endif
+    bool canMoveTo(Tile *toTile);
 
-class Pawn : public Piece{
-    public:
-        Pawn(bool isWhite);
+    void symbol();
 
-        ~Pawn();
+    bool hasMoved() const;
 
-        int getPriority() const;
+    int getPriority() const;
 
-        bool moveTo( Player& byPlayer, Tile& toTile );
-
-        bool canMoveTo( Tile& toTile ) const;
-        
-        bool hasMoved() const;
-
-        void symbol();
-
-    private:
-    	
-        Piece* _promotedTo;
-        
-        bool _moved;
+private:
+    bool _moved;
+    static const int _priority = 5;
 };
 
 #include "pawn_impl.hpp"

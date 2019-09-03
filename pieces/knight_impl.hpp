@@ -1,29 +1,52 @@
-/*
-** Knight Implementation
-*/
-Knight::Knight(bool isWhite) : Piece(isWhite){
+// implementation of Knight
+
+Knight::Knight(bool isWhite) : Piece(isWhite)
+{
 }
 
-Knight::~Knight(){
-}
+bool Knight::canMoveTo(Tile *toTile)
+{
+    int curX, curY, desX, desY;
 
-int Knight::getPriority() const{
-    return 4;
-}
+    curX = this->getPosition()->getX();
+    curY = this->getPosition()->getY();
 
-bool Knight::canMoveTo(Tile& toTile) const{
-    bool validMove = false;
-    int delX = abs(this->getLocation()->getX() - toTile.getX());
-    int delY = abs(this->getLocation()->getY() - toTile.getY());
+    desX = toTile->getX();
+    desY = toTile->getY();
 
-    if(toTile.isEmpty()){
-        if( delX + delY == 3 && delX != 0 && delY != 0 ) validMove = true;
+    if (std::abs(desX - curX) + std::abs(desY - curY) == 3 && std::abs(desX - curX) != 0 && std::abs(desY - curY) != 0)
+    {
+        if (toTile->isEmpty())
+            return true;
+        else
+        {
+            if (toTile->getPiece()->getColor() != this->getColor())
+                return true;
+        }
+        return false;
     }
-    
-    return validMove;
+    return false;
 }
 
-void Knight::symbol(){
-    if(isWhite()) cout<<"N";
-    else cout<<"n";
+void Knight::symbol()
+{
+    HANDLE hConsole;
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    if (this->getColor())
+    {
+        SetConsoleTextAttribute(hConsole, 1); //15
+        std::cout << "N";
+    }
+    else
+    {
+        SetConsoleTextAttribute(hConsole, 4); //240
+        std::cout << "n";
+    }
+    SetConsoleTextAttribute(hConsole, 15);
+}
+
+int Knight::getPriority() const
+{
+    return _priority;
 }

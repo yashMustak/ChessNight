@@ -1,39 +1,28 @@
-#ifndef king_header
-#define king_header
+#ifndef King_header
+#define King_header
 
-#include<ostream>
+#include <cstdlib>
 
-#include "prereq.hpp"
+#include "..\piece.hpp"
 
-#if defined(__unix__)
-#include "../player.hpp"
+class King : public Piece
+{
+public:
+    King(bool isWhite);
 
-#elif defined(_WIN64)
-#include "..\player.hpp"
+    bool moveTo(bool isWhite, Tile *toTile);
 
-#elif defined(__APPLE__)
-#include "../player.hpp"
-#endif
+    bool canMoveTo(Tile *toTile);
 
-class King : public Piece{
-    public:
-        King(bool isWhite);
+    void symbol();
 
-        ~King();
+    bool hasMoved() const;
 
-        int getPriority() const;
-        
-        bool moveTo( Player& byPlayer, Tile& toTile );
+    int getPriority() const;
 
-        bool canMoveTo(Tile& toTile) const;
-        
-        bool hasMoved() const;
-
-        void symbol();
-        
-    private:
-    	
-    	bool _moved;
+private:
+    bool _moved;
+    static const int _priority = 1;
 };
 
 #include "king_impl.hpp"

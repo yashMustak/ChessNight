@@ -1,33 +1,34 @@
-#ifndef tile_header
-#define tile_header
+#ifndef Tile_header
+#define Tile_header
 
-#include<iostream>
+#include <iostream>
 
 class Piece;
+class Board;
 
-using namespace std;
+class Tile
+{
+public:
+    Tile(int x, int y, Board *inBoard);
 
-class Tile{
-	
-	const int _posX;
-	const int _posY;
-	Piece* _piece;
-	
-	public:
-		
-		Tile ( int X, int Y );
-		
-		void setPiece ( Piece* piece );
-		
-		Piece* getPiece () const;
-		
-		bool isEmpty () const;
-		
-		int getX () const;
-		
-		int getY () const;
+    void setPiece(Piece *piece);
+
+    bool isEmpty();
+
+    Piece *getPiece() const;
+
+    Board *getBoard() const;
+
+    int getX() const;
+
+    int getY() const;
+
+private:
+    int _x, _y;
+    Piece *_piece;
+    Board *_inBoard;
 };
 
-#include"tile_impl.hpp"
+#include "tile_impl.hpp"
 
 #endif

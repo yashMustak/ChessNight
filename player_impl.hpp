@@ -1,102 +1,197 @@
-/*
-** Player Implementation
-*/
-Player::Player(string name, bool isWhite, King &myKing, set<Piece*> &myPieces) : 
-_name(name), _isWhite(isWhite), _myKing(myKing), _myPieces(myPieces){
+// implementation of Player
+
+Player::Player(std::string name, bool isWhite) : _name(name), _isWhite(isWhite)
+{
 }
 
-Player::~Player(){
+bool Player::makeMove(Board *thisBoard)
+{
+    std::string fromTile;
+    std::string toTile;
+
+    Tile *tilePtr;
+    Piece *thisPiece;
+    Piece *toPiece = NULL;
+
+    bool makeMove = false;
+
+    int fromX, fromY, toX, toY;
+
+    if (this->inCheck())
+    {
+        std::cout << this->getName() << " is in check" << std::endl;
+    }
+
+    std::cin >> fromTile;
+    std::cin >> toTile;
+
+    if (fromTile[0] < 97)
+    {
+        fromY = (int)fromTile[0] - 65;
+    }
+    else
+        fromY = (int)fromTile[0] - 97;
+    fromX = (int)fromTile[1] - 49;
+
+    if (toTile[0] < 97)
+    {
+        toY = (int)toTile[0] - 65;
+    }
+    else
+        toY = (int)toTile[0] - 97;
+    toX = (int)toTile[1] - 49;
+
+    if (fromX < 0 || fromX > 7 || fromY < 0 || fromY > 7 || toX < 0 || toX > 7 || toY < 0 || toY > 7)
+    {
+        makeMove = false;
+    }
+    else
+    {
+        thisPiece = thisBoard->tileAt(fromX, fromY)->getPiece();
+        tilePtr = thisBoard->tileAt(toX, toY);
+        if (!tilePtr->isEmpty())
+        {
+            if (tilePtr->getPiece()->getColor() != thisPiece->getColor())
+            {
+                toPiece = tilePtr->getPiece();
+            }
+        }
+
+        tilePtr = thisBoard->tileAt(fromX, fromY);
+        if (!thisPiece)
+        {
+            makeMove = false;
+        }
+        else
+        {
+            tilePtr = thisBoard->tileAt(toX, toY);
+            if (this->isValidMove(thisPiece, tilePtr))
+            {
+                makeMove = thisPiece->moveTo(this->getColor(), tilePtr);
+            }
+            else
+                makeMove = false;
+        }
+    }
+    if (makeMove)
+    {
+        if (toPiece)
+        {
+            set<Piece *>::iterator itr;
+            for (itr = _oppositePieces->begin(); itr != _oppositePieces->end(); ++itr)
+            {
+                if (*itr == toPiece)
+                {
+                    _oppositePieces->erase(itr);
+                    break;
+                }
+            }
+            return makeMove;
+        }
+    }
 }
 
-void Player::changeName(string newName){
-	_name = newName;
+bool Player::isValidMove(Piece *thisPiece, Tile *toTile)
+{
+    Tile *currentPosition = thisPiece->getPosition();
+    Piece *destPiece = NULL;
+
+    if (!toTile->isEmpty())
+    {
+        destPiece = toTile->getPiece();
+    }
+
+    if (thisPiece->canMoveTo(toTile))
+    {
+        thisPiece->setPosition(toTile);
+        toTile->setPiece(thisPiece);
+        currentPosition->setPiece(NULL);
+
+        if (this->inCheck())
+        {
+            currentPosition->setPiece(thisPiece);
+            thisPiece->setPosition(currentPosition);
+            toTile->setPiece(destPiece);
+
+            return false;
+        }
+        else
+        {
+            currentPosition->setPiece(thisPiece);
+            thisPiece->setPosition(currentPosition);
+            toTile->setPiece(destPiece);
+
+            return true;
+        }
+    }
+    else
+    {
+        return false;
+    }
 }
 
-bool Player::makeMove(){
-	
-	string fromTile;
-	string toTile;
-	int fromX;
-	int fromY;
-	int toX;
-	int toY;
-	
-	if(inCheck){
-		cout<<_name<<" is in Check!"<<endl;
-	}
-	
-	cout<<_name<<" enter your move (eg. d4 d6): ";
-	cin>>fromTile;
-	cin>>toTile;
-	
-	transform(fromTile.begin(), fromTile.end(), fromTile.begin(), ::tolower);
-	transform(toTile.begin(), toTile.end(), toTile.begin(), ::tolower);
-	
-	fromX = (int)fromTile[0] - 97;
-	fromY = 8 - (int)fromTile[1];
-	
-	toX = (int)toTile[0] - 97;
-	toY = 8 - (int)toTile[1];
-	
-	while(fromX >= 8 || fromX < 0 ||
-	   fromY >= 8 || fromX < 0 ||
-	   toX >= 8 || toX < 0 ||
-	   toY >= 8 || toY < 0){
-	   	cout<<"Please enter valid coordinates on the board: ";
-	   	
-	   	cin>>fromTile;
-		cin>>toTile;
-		
-		transform(fromTile.begin(), fromTile.end(), fromTile.begin(), ::tolower);
-		transform(toTile.begin(), toTile.end(), toTile.begin(), ::tolower);
-		
-		fromX = (int)fromTile[0] - 97;
-		fromY = 8 - (int)fromTile[1];
-		
-		toX = (int)toTile[0] - 97;
-		toY = 8 - (int)toTile[1];
-	}
-	
-	return Board::getBoard()->tileAt(fromX, fromY)->getPiece()->moveTo(
-		*this, *(Board::getBoard()->tileAt(toX, toY)));
+bool Player::inCheck()
+{
+    // std::set<Piece *>::iterator itr;
+    // Piece *tempPiece;
+
+    // for (itr = _oppositePieces->begin(); itr != _oppositePieces->end(); ++itr)
+    // {
+    //     tempPiece = *itr;
+    //     // //testing
+    //     tempPiece->symbol();
+    //     // //end testing
+    //     if (tempPiece->canMoveTo(this->getKing()->getPosition()))
+    //         return true;
+    //     itr++;
+    // }
+    // //testing
+    // cout << "ending incheck" << endl;
+    // //end testing
+    return false;
 }
 
-bool Player::inCheck(){
-	bool check = false;
-	set<Piece*> tempSet = Game::opponentOf(*this)->_myPieces;
-	for(set<Piece*>::iterator itr = tempSet.begin(); itr != tempSet.end(); ++itr){
-		if((Piece*)*itr->getLocation() && (Piece*)*itr->canMoveTo(*_myKing.getLocation())) check = true;
-		else check = false;
-	}
+void Player::changeName(std::string newName)
+{
+    _name = newName;
 }
 
-void Player::capture(Piece* capturePiece){
-	capturePiece->setLocation(NULL);
-	Game::opponentOf(*this)->_myPieces.erase(capturePiece);
-	_captured.insert(capturePiece);
+void Player::setOppositePieces(set<Piece *> *oppositePieces)
+{
+    _oppositePieces = oppositePieces;
 }
 
-string Player::getName() const{
-	return _name;
+bool Player::getColor() const
+{
+    return _isWhite;
 }
 
-bool Player::isWhite() const{
-	return _isWhite;
+set<Piece *> Player::getPieceSet() const
+{
+    return _myPieces;
 }
 
-int Player::score() const{
-	int score = 0;
-	set<Piece*>::iterator itr;
-	for(itr = _captured.begin(); itr != _captured.end(); ++itr){
-		score += ((Piece*)*itr)->getPriority();
-	}
-	return score;
+set<Piece *> *Player::getOppositePieces() const
+{
+    return _oppositePieces;
 }
 
-set<Piece*>* Player::getMyPieces() const{
-	return & _myPieces;
+King *Player::getKing() const
+{
+    return _myKing;
 }
 
-King* Player::getKing() const{
-	return & _myKing;
+std::string Player::getName() const
+{
+    return _name;
+}
+
+std::set<Piece *> Player::getPeices() const
+{
+    return _myPieces;
+}
+
+std::set<Piece *> Player::getCaptured() const
+{
+    return _capturedPieces;
 }

@@ -1,19 +1,23 @@
-#ifndef bishop_header
-#define bishop_header
+#ifndef Bishop_header
+#define Bishop_header
 
-#include "prereq.hpp"
+#include <cstdlib>
 
-class Bishop : public Piece{
-    public:
-        Bishop(bool isWhite);
+#include "..\piece.hpp"
 
-        ~Bishop();
+class Bishop : public Piece
+{
+public:
+    Bishop(bool isWhite);
 
-        int getPriority() const;
+    bool canMoveTo(Tile *toTile);
 
-        bool canMoveTo(Tile& toTile) const;
+    void symbol();
 
-        void symbol();
+    int getPriority() const;
+
+private:
+    static const int _priority = 4;
 };
 
 #include "bishop_impl.hpp"

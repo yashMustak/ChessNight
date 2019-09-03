@@ -1,19 +1,23 @@
-#ifndef queen_header
-#define queen_heade
+#ifndef Queen_header
+#define Queen_header
 
-#include "prereq.hpp"
+#include <cstdlib>
 
-class Queen : public Piece{
-    public:
-        Queen(bool isWhite);
+#include "..\piece.hpp"
 
-        ~Queen();
+class Queen : public Piece
+{
+public:
+    Queen(bool isWhite);
 
-        int getPriority() const;
+    bool canMoveTo(Tile *toTile);
 
-        bool canMoveTo(Tile& toTile) const;
+    void symbol();
 
-        void symbol();
+    int getPriority() const;
+
+private:
+    static const int _priority = 2;
 };
 
 #include "queen_impl.hpp"

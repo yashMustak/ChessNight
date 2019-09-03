@@ -1,34 +1,44 @@
-/*
-** Rook Implementation
-*/
-Rook::Rook(bool isWhite) : Piece(isWhite){
+// implementation of Rook
+
+Rook::Rook(bool isWhite) : Piece(isWhite)
+{
 }
 
-Rook::~Rook(){
-}
+bool Rook::canMoveTo(Tile *toTile)
+{
+    Tile *onTile = this->getPosition();
 
-int Rook::getPriority() const{
-    return 4;
-}
+    Board *inBoard = toTile->getBoard();
 
-bool Rook::canMoveTo(Tile& toTile) const{
-    bool validMove = false;
-    int delX = abs(this->getLocation()->getX() - toTile.getX());
-    int delY = abs(this->getLocation()->getY() - toTile.getY());
-
-    if(Board::getBoard()->isClearHorizontal(*this->getLocation(), toTile)){
-            if(delX == 0) validMove = true;
+    if (inBoard->isEmptyHorizontal(onTile, toTile))
+        return true;
+    else
+    {
+        if (inBoard->isEmptyVertical(onTile, toTile))
+            return true;
     }
-    else{
-        if(Board::getBoard()->isClearVertical(*this->getLocation(), toTile)){
-            if(delY == 0) validMove = true;
-        }
-    }
-    
-    return validMove;
+    return false;
 }
 
-void Rook::symbol(){
-    if(isWhite()) cout<<"R";
-    else cout<<"r";
+void Rook::symbol()
+{
+    HANDLE hConsole;
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    if (this->getColor())
+    {
+        SetConsoleTextAttribute(hConsole, 1); //15
+        std::cout << "R";
+    }
+    else
+    {
+        SetConsoleTextAttribute(hConsole, 4); //240
+        std::cout << "r";
+    }
+    SetConsoleTextAttribute(hConsole, 15);
+}
+
+int Rook::getPriority() const
+{
+    return _priority;
 }

@@ -1,50 +1,94 @@
-/*
-** King Implementation
-*/
-King::King(bool isWhite) : Piece(isWhite){
+// implementation of King
+
+King::King(bool isWhite) : Piece(isWhite)
+{
 }
 
-King::~King(){
-}
-
-int King::getPriority() const{
-    return 1;
-}
-
-bool King::moveTo(Player& byPlayer, Tile& toTile){
-    
-    bool valid = Piece::moveTo(byPlayer, toTile);
-
-    if(valid && !_moved){
+bool King::moveTo(bool isWhite, Tile *toTile)
+{
+    if (!_moved)
         _moved = true;
-    }
 
-    return valid;
+    if (isWhite == this->getColor())
+    {
+        if (this->canMoveTo(toTile))
+        {
+            if (!toTile->isEmpty())
+            {
+                delete toTile->getPiece();
+            }
+            this->getPosition()->setPiece(NULL);
+            this->setPosition(toTile);
+            toTile->setPiece(this);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        return false;
+    }
 }
 
-bool King::canMoveTo ( Tile& toTile ) const{
-    bool validMove = false;
-    int delX = abs(this->getLocation()->getX() - toTile.getX());
-    int delY = abs(this->getLocation()->getY() - toTile.getY());
+bool King::canMoveTo(Tile *toTile)
+{
+    int curX, curY, desX, desY;
 
-    if(toTile.isEmpty()){
-        if ( delX == 1 && delY == 0 ) validMove = true;
-        else{
-            if ( delX == 0 && delY == 1 ) validMove = true;
-            else{
-                if ( delX == 1 && delY == 1 ) validMove = true;
+    curX = this->getPosition()->getX();
+    curY = this->getPosition()->getY();
+
+    desX = toTile->getX();
+    desY = toTile->getY();
+
+    if (std::abs(curX - desX) <= 1 && std::abs(curY - desY) <= 1)
+    {
+        if (toTile->isEmpty())
+        {
+            return true;
+        }
+        else
+        {
+            if (toTile->getPiece()->getColor() != this->getColor())
+                return true;
+            else
+            {
+                return false;
             }
         }
     }
-
-    return validMove;
+    else
+    {
+        return false;
+    }
 }
 
-bool King::hasMoved() const{
+void King::symbol()
+{
+    HANDLE hConsole;
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    if (this->getColor())
+    {
+        SetConsoleTextAttribute(hConsole, 1); //15
+        std::cout << "K";
+    }
+    else
+    {
+        SetConsoleTextAttribute(hConsole, 4); //240
+        std::cout << "k";
+    }
+    SetConsoleTextAttribute(hConsole, 15);
+}
+
+bool King::hasMoved() const
+{
     return _moved;
 }
 
-void King::symbol(){
-    if(isWhite()) cout<<"K";
-    else cout<<"k";
+int King::getPriority() const
+{
+    return _priority;
 }

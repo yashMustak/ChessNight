@@ -1,55 +1,43 @@
-#ifndef game_header
-#define game_header
+#ifndef Game_header
+#define Game_header
 
-#include<set>
+#include "player.hpp"
 
-#include "common.hpp"
-
-
-#if defined(__unix__)
-#include "pieces/king.hpp"
-#include "pieces/queen.hpp"
-#include "pieces/bishop.hpp"
-#include "pieces/rook.hpp"
-#include "pieces/knight.hpp"
-#include "pieces/pawn.hpp"
-
-#elif defined(_WIN64)
-#include "pieces\king.hpp"
 #include "pieces\queen.hpp"
 #include "pieces\bishop.hpp"
 #include "pieces\rook.hpp"
 #include "pieces\knight.hpp"
 #include "pieces\pawn.hpp"
 
-#elif defined(__APPLE__)
-#include "pieces/king.hpp"
-#include "pieces/queen.hpp"
-#include "pieces/bishop.hpp"
-#include "pieces/rook.hpp"
-#include "pieces/knight.hpp"
-#include "pieces/pawn.hpp"
-#endif
+class Game
+{
+public:
+    Game();
 
-class Game{
+    void initialize();
 
-    public:
-        ~Game();
+    Board *getBoard();
 
-        static void initialize();
+    Player *opponentOf(Player *thisPlayer);
 
-        static Player* nextPlayer();
+    void setCurrentPlayer(Player *thisPlayer);
 
-        static Player* opponentOf(Player& thisPlayer);
+    void setPlayerWon(Player *playerWon);
 
-    private:
-        Game();
+    Player *nextPlayer() const;
 
-        static Player* currentPlayer;
-        static Player* player1;
-        static Player* player2;
-        static set<Piece*> whitePieces;
-        static set<Piece*> blackPieces;
+    Player *currentPlayer() const;
+
+    Player *getPlayerWon() const;
+
+private:
+    Board *_newBoard;
+    Player *player1;
+    Player *player2;
+    Player *_currentPlayer;
+    Player *_playerWon;
+    set<Piece *> _whitePieces;
+    set<Piece *> _blackPieces;
 };
 
 #include "game_impl.hpp"

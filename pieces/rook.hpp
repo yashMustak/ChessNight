@@ -1,19 +1,23 @@
-#ifndef rook_header
-#define rook_header
+#ifndef Rook_header
+#define Rook_header
 
-#include "prereq.hpp"
+#include <cstdlib>
 
-class Rook : public Piece{
-    public:
-        Rook(bool isWhite);
+#include "..\piece.hpp"
 
-        ~Rook();
+class Rook : public Piece
+{
+public:
+    Rook(bool isWhite);
 
-        int getPriority() const;
+    bool canMoveTo(Tile *toTile);
 
-        bool canMoveTo(Tile& toTile) const;
+    void symbol();
 
-        void symbol();
+    int getPriority() const;
+
+private:
+    static const int _priority = 3;
 };
 
 #include "rook_impl.hpp"
