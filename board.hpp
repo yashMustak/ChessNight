@@ -1,5 +1,5 @@
 #ifndef board_header
-#define biard_header
+#define board_header
 
 #include "tile.hpp"
 #include "piece.hpp"
